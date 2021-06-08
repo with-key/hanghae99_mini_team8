@@ -47,4 +47,5 @@ def check_dup():
 
 
 if __name__ == "__main__":
+    app.run(host="0.0.0.0")
     app.run(debug=True)  # debug mode on, 사용하면 server restart 불필요
