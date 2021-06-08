@@ -1,21 +1,21 @@
-from flask import Flask
+from flask import Flask,render_template
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def main_page():
-    return '메인페이지 랜딩'
+    return render_template('메인페이지 렌딩')
 
 
 @app.route('/login_page')
 def login_page():
-    return '로그인 랜딩'
+    return render_template('로그인페이지 랜딩')
 
 
 @app.route('/signup_page')
 def signup_page():
-    return '회원가입 랜딩'
+    return render_template('회원가입 페이지 렌딩')
 
 
 @app.route('/signup', methods=['POST'])
