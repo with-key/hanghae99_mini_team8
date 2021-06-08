@@ -3,6 +3,8 @@ import jwt
 import hashlib
 from datetime import datetime, timedelta
 from flask import Flask, render_template, jsonify, request, redirect, url_for
+import requests
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -88,6 +90,70 @@ def check_dup():
     exists = bool(db.users.find_one({"userid": id_receive}))
     return jsonify({"result": "success", "exists": exists})
 
+
+@app.route("/post",methods=["POST"])
+def posting():
+
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        userid = db.users.find_one({"userid": payload["id"]})
+
+#웹에서 오는것
+        postname = request.form['postname']
+        categories = request.form['categories']
+        mdurl = request.form['mdurl']
+        grade = request.form['grade']
+        recommendation = request.form['recommendation']
+        honeytip = request.form['honeytip']
+        image = ""
+        price = ""
+#스크래핑 하는것
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+        data = requests.get(mdurl,
+                            headers=headers)
+        soup = BeautifulSoup(data.text, 'html.parser')
+
+        if "http://item.gmarket.co.kr/" in mdurl:
+            image = soup.select_one("meta[property='og:image']")['content']
+            price = soup.select_one('#itemcase_basic > div > p > span > strong').text
+        elif "shopping.naver.com" in mdurl:
+            image = soup.select_one("meta[property='og:image']")['content']
+            price = soup.select_one("#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > "
+                                    "div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR").text
+            price = price + '원'
+
+        doc = {
+            "userid": userid,
+            "postname": postname,
+            "categories": categories,
+            "mdurl": mdurl,
+            "grade": grade,
+            "recommendation": recommendation,
+            "honeytip": honeytip,
+            "image": image,
+            "price": price,
+            "post_id": ""
+        }
+
+        db.posts.insert_one(doc)
+
+        post_id = db.posts.find_one({"userid": userid})
+        post_id = str(post_id["_id"])
+
+        print(post_id)
+##게시물 id값 저장
+        myquery = {"userid": userid}
+        newvalues = {"$set": {"post_id": post_id}}
+        db.posts.update_one(myquery,newvalues)
+        return jsonify({"msg": "success"})
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
