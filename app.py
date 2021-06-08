@@ -6,7 +6,7 @@ from flask import Flask, render_template, jsonify, request, redirect, url_for
 app = Flask(__name__)
 
 client = MongoClient('54.180.31.166', 27017, username="test", password="test")
-db = client.first_mini_projecthttp
+db = client.first_mini_project
 
 SECRET_KEY = 'honeyshare'
 
@@ -72,7 +72,7 @@ def login():
          'id': id_receive,
          'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
