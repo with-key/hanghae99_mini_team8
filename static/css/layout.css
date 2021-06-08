@@ -1,0 +1,40 @@
+/**
+ * Layout
+ */
+
+
+/* ============
+Header 
+============ */
+.header {
+  padding: 15px 0;
+  border-bottom: 1px solid #e3e3e3;
+}
+.header .row {
+  align-items: center;
+}
+
+.header .logo {
+  width: 120px;
+}
+
+/* ============
+Footer 
+============ */
+.footer {
+  height: 125px;
+  color: #ffffff;
+  text-align: center;
+  background: #191a1b;
+  padding: 50px 0;
+}
+
+.footer p {
+  margin-bottom: 0;
+}
+
+@media (min-width: 1200px) {
+  .footer {
+    height: 125px;
+  }
+}
