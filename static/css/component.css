@@ -1,0 +1,20 @@
+/**
+ * Component
+ */
+
+
+/* ============
+Button 
+============ */
+
+.btn-primary {
+  color: #fff;
+  background-color: #f50000;
+  border-color: #f50000;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #d30808;
+  border-color: #d30808;
+}
