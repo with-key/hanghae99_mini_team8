@@ -82,8 +82,9 @@ def login():
 
 @app.route("/signup/check_dup", methods=["POST"])
 def check_dup():
-    # 회원가입시 아이디 중복 체크
-    return "아이디가 중복시 success 반환"
+    id_receive = request.form['id']
+    exists = bool(db.users.find_one({"userid": id_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
 
 
 if __name__ == "__main__":
