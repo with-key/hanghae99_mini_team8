@@ -1,3 +1,67 @@
 /**
  * Form
  */
+
+/* login form */
+* {
+  box-sizing: border-box;
+}
+.section_login {
+  display: flex;
+  justify-content: center;
+  padding-top: 70px;
+}
+.form_row {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.login {
+  padding: 1.6rem;
+  width: 550px;
+  height: 350px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  position: relative;
+}
+.login_title {
+  text-align: center;
+  margin-bottom: 38px;
+}
+.login_form {
+  width: 400px;
+  margin: 0 auto;
+}
+.login_label {
+  display: block;
+  width: 100px;
+  font-size: 1rem;
+}
+.login_input {
+  width: 300px;
+  height: 27px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  padding: 0 20px;
+}
+.login_btn {
+  width: 70%;
+  height: 40px;
+  border-radius: 8px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+
+.link_signup {
+  position: absolute;
+  right: 75px;
+  color: dodgerblue;
+  font-size: 12px;
+}
+
+/*  */
