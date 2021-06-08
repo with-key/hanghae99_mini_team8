@@ -18,3 +18,13 @@ Button
   background-color: #d30808;
   border-color: #d30808;
 }
+
+.btn-filter {
+  color: #666;
+  border-color: #666;
+}
+.btn-filter.active {
+  color: #fff;
+  background-color: #f50000;
+  border-color: #f50000;
+}

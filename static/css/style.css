@@ -6,5 +6,7 @@
 @import 'layout.css';
 
 /* 콘텐츠 */
+@import 'home.css';
+@import 'component.css';
 @import 'form.css';
 @import 'component.css';

@@ -1,0 +1,43 @@
+/**
+ * Home
+ */
+
+
+.main-banner {
+  /* background-color: #FFD200; */
+  background-color: #1d1e1f;
+}
+
+.main-banner .banner {
+  /* background-image: url(../images/main-banner-sample.png);
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-size: 325px 235px; */
+  padding: 100px 0;
+}
+
+.main-title,
+.main-desc {
+  color: #ffffff;
+}
+
+.main-title {
+  margin-bottom: 20px;
+}
+.main-desc {
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+.filter-group {
+  text-align: center;
+  margin: 40px 0 20px;
+}
+
+.filter-group .btn {
+  margin: 2px;
+}
+
+.card-list .card {
+  margin-bottom: 30px;
+}
