@@ -1,40 +1,58 @@
-{% extends 'form.html' %}
-<!--  -->
-{% block form %}
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+    //  회원가입 완료
+    function getSignup() {
+        $.ajax({
+            type: 'POST',
+            url: '/signup',
+            data: {
+                id: $('#userid').val(),
+                pw: $('#userpw').val(),
+                name: $('#username').val(),
+            },
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    alert('회원가입이 완료되었습니다.');
+                } else {
+                    alert(response['msg']);
+                }
+            },
+        });
+    }
+</script>
+
 <section class="section">
     <div class="wrapper_sign_up ">
         <h1 class="title">환영합니다 👋</h1>
-        <form action="POST" class="form">
-            <div class="sign_up_row">
-                <label for="id" class="sign_up_label ">아이디</label>
-                <input type="text" name="id" class="sign_up_input" id="sign_id">
-                <button class="sign_up_valid_id" id="valid_btn">중복확인</button>
-            </div>
-            <div class="sign_up_row">
-                <label for="name" class="sign_up_label">이름</label>
-                <input type="text" name="name" class="sign_up_input">
-            </div>
-            <br />
-            <div class="sign_up_row">
-                <label for=" password" class="sign_up_label">비밀번호</label>
-                <input type="password" name="password" class="sign_up_input">
-            </div>
-            <div class="sign_up_row">
-                <label for=" password" class="sign_up_label">비밀번호 확인</label>
-                <input type="password" name="password" class="sign_up_input">
-            </div>
-            <div class="sign_up_row">
-                <a href="#" class="signup_agree"> 이용 약관에 동의합니다.</a>
-                <input type="checkbox" name="" id="" required>
-            </div>
-            <div class="sign_up_btn_set">
-                <input type="submit" value="이전" class="sign_up_btn_default">
-                <input type="submit" value="완료" class="sign_up_btn ">
-            </div>
-        </form>
+
+        <div class="sign_up_row">
+            <label for="id" class="sign_up_label ">아이디</label>
+            <input type="text" name="id" class="sign_up_input" id="userid">
+            <button class="sign_up_valid_id" id="valid_btn">중복확인</button>
+        </div>
+        <div class="sign_up_row">
+            <label for="name" class="sign_up_label">이름</label>
+            <input type="text" name="name" class="sign_up_input" id="username">
+        </div>
+        <br />
+        <div class="sign_up_row">
+            <label for=" password" class="sign_up_label">비밀번호</label>
+            <input type="password" name="password" class="sign_up_input" id="userpw">
+        </div>
+        <div class="sign_up_row">
+            <label for=" password" class="sign_up_label">비밀번호 확인</label>
+            <input type="password" name="password" class="sign_up_input">
+        </div>
+        <div class="sign_up_row">
+            <a href="#" class="signup_agree"> 이용 약관에 동의합니다.</a>
+            <!-- <input type="checkbox" name="" id="" required> -->
+        </div>
+        <div class="sign_up_btn_set">
+            <input value="이전" class="sign_up_btn_default">
+            <button onclick="getSignup()">완료</button>
+        </div>
     </div>
 </section>
-{% endblock form %}
-{% block script %}
-<script src="../static/js/signUp.js" type="text/javascript"></script>
-{% endblock script %}
+{% endblock content %}
