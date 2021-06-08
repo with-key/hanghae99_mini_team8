@@ -28,3 +28,19 @@ Button
   background-color: #f50000;
   border-color: #f50000;
 }
+
+
+/* ============
+Pagination 
+============ */
+.pagination {
+  justify-content: center;
+}
+
+.page-link {
+  color: #666;
+}
+.page-link.active {
+  color: #f50000;
+  font-weight: 500;
+}
