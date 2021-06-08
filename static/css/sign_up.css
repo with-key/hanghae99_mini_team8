@@ -19,22 +19,34 @@
   padding-top: 20px;
 }
 .sign_up_row {
+  padding-left: 20px;
+  gap: 10px;
   display: flex;
   align-items: center;
   margin: 20px 0;
 }
+
+.user_agree {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+  font-size: 14px;
+}
+
 .wrapper_sign_up {
   padding: 1.6rem;
   width: 550px;
-  height: 450px;
-  border: 1px solid #ddd;
+  height: 550px;
   border-radius: 8px;
   position: relative;
 }
 .title {
   text-align: center;
-  margin-bottom: 38px;
+  margin-bottom: 50px !important;
 }
+
 .form {
   width: 400px;
   margin: 0 auto;
@@ -45,8 +57,8 @@
   font-size: 1rem;
 }
 .sign_up_input {
-  /* width: 300px; */
-  height: 27px;
+  width: 263px;
+  height: 43px;
   border-radius: 8px;
   border: 1px solid #ddd;
   outline: none;
@@ -58,7 +70,7 @@
 
 .signup_agree {
   color: dodgerblue;
-  font-size: 12px;
+  font-size: 15px;
   text-decoration: none;
 }
 
@@ -72,16 +84,34 @@
 .sign_up_btn {
   width: 180px;
   height: 40px;
-
   border-radius: 8px;
   cursor: pointer;
 }
+.sign_up_valid_id {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  height: 40px;
+}
+
 .sign_up_btn_default {
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  align-items: center;
+  color: #000;
   background-color: #fff;
   border: 1px solid #ddd;
 }
 .sign_up_btn {
-  background-color: #f50000;
+  background-color: #ddd;
   color: #fff;
   border: none;
+}
+
+#help_msg {
+  text-align: left;
+  position: absolute;
+  right: -43px;
+  bottom: 170px;
 }
