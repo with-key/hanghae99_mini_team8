@@ -12,25 +12,53 @@
                 pw: $('#userpw').val(),
                 name: $('#username').val(),
             },
-            success: function (response) {
-                if (response['result'] == 'success') {
+            success: function (res) {
+                if (res['result'] == 'success') {
                     alert('회원가입이 완료되었습니다.');
                 } else {
-                    alert(response['msg']);
+                    alert(res['msg']);
                 }
             },
         });
     }
+    function validUserId() {
+        $.ajax({
+            type: 'POST',
+            url: '/signup/check_dup',
+            data: {
+                id: $('#userid').val(),
+            },
+            success: function (res) {
+                if (res.exists === true) {
+                    alert("이미 존재하는 아이디입니다.")
+                    document.getElementById('userid').value = "";
+                } else {
+                    alert("사용가능한 아이디입니다")
+                }
+            },
+        });
+    }
+
+    // 비밀번호 유효성 체크
+    const validPw = () => {
+        const pw = document.getElementById('userpw').value
+        const rePw = document.getElementById('userRePw').value
+
+        if (pw !== rePw) {
+            alert('비밀번호가 일치 하지 않습니다.')
+        }
+    }
+
 </script>
 
 <section class="section">
     <div class="wrapper_sign_up ">
         <h1 class="title">환영합니다 👋</h1>
-
         <div class="sign_up_row">
             <label for="id" class="sign_up_label ">아이디</label>
             <input type="text" name="id" class="sign_up_input" id="userid">
-            <button class="sign_up_valid_id" id="valid_btn">중복확인</button>
+            <div class="help_msg"></div>
+            <button class="sign_up_valid_id" id="valid_btn" onclick="validUserId()">중복확인</button>
         </div>
         <div class="sign_up_row">
             <label for="name" class="sign_up_label">이름</label>
@@ -43,11 +71,11 @@
         </div>
         <div class="sign_up_row">
             <label for=" password" class="sign_up_label">비밀번호 확인</label>
-            <input type="password" name="password" class="sign_up_input">
+            <input type="password" name="password" class="sign_up_input" id="userRePw">
         </div>
         <div class="sign_up_row">
             <a href="#" class="signup_agree"> 이용 약관에 동의합니다.</a>
-            <!-- <input type="checkbox" name="" id="" required> -->
+            <input type="checkbox" name="" id="" required>
         </div>
         <div class="sign_up_btn_set">
             <input value="이전" class="sign_up_btn_default">
