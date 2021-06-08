@@ -1,6 +1,14 @@
-from flask import Flask, render_template
-
+from pymongo import MongoClient
+import jwt
+import hashlib
+from datetime import datetime, timedelta
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 app = Flask(__name__)
+
+client = MongoClient('54.180.31.166/', 27017, username="test", password="test")
+db = client.first_mini_project
+
+SECRET_KEY = 'honeyshare'
 
 
 #############################
@@ -8,9 +16,17 @@ app = Flask(__name__)
 #############################
 
 
-@app.route("/")
+@app.route('/')
 def main_page():
-    return render_template("home.html")
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"username": payload["id"]})
+        return render_template("home.html", user_info=user_info)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 
 @app.route("/login_page")
@@ -36,8 +52,22 @@ def signup():
 
 @app.route("/login", methods=["POST"])
 def login():
-    # 로그인
-    return "로그인 성공 or 로그인 실패 반환"
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+
+    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+    if result is not None:
+        payload = {
+         'id': username_receive,
+         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+        }
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        return jsonify({'result': 'success', 'token': token})
+    # 찾지 못하면
+    else:
+        return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
 @app.route("/signup/check_dup", methods=["POST"])
