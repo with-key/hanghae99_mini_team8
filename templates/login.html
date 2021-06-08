@@ -35,21 +35,17 @@ function sign_in() {
     if (username == "") {
         $("#help-id-login").text("아이디를 입력해주세요.")
         $("#input-username").focus()
-        console.log('1.아이디')
         return;
     } else {
         $("#help-id-login").text("")
-        console.log('1-1.아이디')
     }
 
     if (password == "") {
         $("#help-password-login").text("비밀번호를 입력해주세요.")
         $("#input-password").focus()
-        console.log('2.비밀번호')
         return;
     } else {
         $("#help-password-login").text("")
-        console.log('2-1.비밀번호');
     }
     $.ajax({
         type: "POST",
@@ -62,7 +58,8 @@ function sign_in() {
             if (response['result'] == 'success') {
                 $.cookie('mytoken', response['token'], {path: '/'});
                 alert('로그인 하셨습니다.');
-                window.location.replace("/")
+                // window.location.replace("/")
+                window.location.href = '/'
             } else {
                 alert(response['msg'])
             }
