@@ -2,7 +2,6 @@
  * Layout
  */
 
-
 .content {
   min-height: 700px;
 }
@@ -35,6 +34,7 @@ Footer
   text-align: center;
   background: #191a1b;
   padding: 30px 0;
+  width: 100%;
 }
 
 .footer p {

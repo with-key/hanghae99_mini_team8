@@ -1,1 +1,40 @@
-<div>sign_up</div>
+{% extends 'form.html' %}
+<!--  -->
+{% block form %}
+<section class="section">
+    <div class="wrapper_sign_up ">
+        <h1 class="title">환영합니다 👋</h1>
+        <form action="POST" class="form">
+            <div class="sign_up_row">
+                <label for="id" class="sign_up_label ">아이디</label>
+                <input type="text" name="id" class="sign_up_input" id="sign_id">
+                <button class="sign_up_valid_id" id="valid_btn">중복확인</button>
+            </div>
+            <div class="sign_up_row">
+                <label for="name" class="sign_up_label">이름</label>
+                <input type="text" name="name" class="sign_up_input">
+            </div>
+            <br />
+            <div class="sign_up_row">
+                <label for=" password" class="sign_up_label">비밀번호</label>
+                <input type="password" name="password" class="sign_up_input">
+            </div>
+            <div class="sign_up_row">
+                <label for=" password" class="sign_up_label">비밀번호 확인</label>
+                <input type="password" name="password" class="sign_up_input">
+            </div>
+            <div class="sign_up_row">
+                <a href="#" class="signup_agree"> 이용 약관에 동의합니다.</a>
+                <input type="checkbox" name="" id="" required>
+            </div>
+            <div class="sign_up_btn_set">
+                <input type="submit" value="이전" class="sign_up_btn_default">
+                <input type="submit" value="완료" class="sign_up_btn ">
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock form %}
+{% block script %}
+<script src="../static/js/signUp.js" type="text/javascript"></script>
+{% endblock script %}

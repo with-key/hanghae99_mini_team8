@@ -1,0 +1,87 @@
+/**
+ * Form
+ */
+
+/* login form */
+* {
+  box-sizing: border-box;
+}
+
+.form_foo {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+.section {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+.sign_up_row {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+.wrapper_sign_up {
+  padding: 1.6rem;
+  width: 550px;
+  height: 450px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  position: relative;
+}
+.title {
+  text-align: center;
+  margin-bottom: 38px;
+}
+.form {
+  width: 400px;
+  margin: 0 auto;
+}
+.sign_up_label {
+  display: block;
+  width: 90px;
+  font-size: 1rem;
+}
+.sign_up_input {
+  /* width: 300px; */
+  height: 27px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  outline: none;
+  padding: 0 20px;
+}
+.label_id {
+  width: 250px !important;
+}
+
+.signup_agree {
+  color: dodgerblue;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.sign_up_btn_set {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.sign_up_btn_default,
+.sign_up_btn {
+  width: 180px;
+  height: 40px;
+
+  border-radius: 8px;
+  cursor: pointer;
+}
+.sign_up_btn_default {
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+.sign_up_btn {
+  background-color: #f50000;
+  color: #fff;
+  border: none;
+}
