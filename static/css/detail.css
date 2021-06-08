@@ -1,0 +1,37 @@
+/**
+ * Detail
+ */
+
+
+.product-img {
+  object-fit: cover;
+}
+
+.button-group {
+  margin-bottom: 30px;
+}
+
+.badge {
+  margin-bottom: 10px;
+}
+
+.product-group .product-title {
+  color: #333333;
+}
+.product-item + .product-item {
+  margin-top: 20px;
+}
+.product-label {
+  font-size: 16px;
+}
+.product-price {
+  font-size: 20px;
+  font-weight: 500;
+}
+.product-link {
+  color: #f50000;
+  text-decoration: underline;
+}
+.product-score {
+  color: #f50000;
+}
