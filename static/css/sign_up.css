@@ -75,6 +75,7 @@
 }
 
 .sign_up_btn_set {
+  margin-top: 80px;
   display: flex;
   gap: 20px;
   justify-content: center;
@@ -112,6 +113,7 @@
 #help_msg {
   text-align: left;
   position: absolute;
-  right: -43px;
+  right: -125px;
   bottom: 170px;
+  width: 250px;
 }

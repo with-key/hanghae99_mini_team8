@@ -24,11 +24,6 @@
             <input type="password" name="password" class="sign_up_input" id="userRePw" onkeyup="validPw()">
         </div>
         <div id="help_msg"></div>
-
-        <div class="user_agree">
-            <a href="#" class="signup_agree"> 이용 약관에 동의합니다.</a>
-            <input type="checkbox">
-        </div>
         <div class="sign_up_btn_set">
             <a href="/" class="sign_up_btn_default">이전</a>
             <button class="sign_up_btn" onclick="getSignup()" id="submit_btn" disabled>완료</button>
@@ -83,35 +78,36 @@
         const pw = document.getElementById('userpw').value
         const rePw = document.getElementById('userRePw').value
         const submitBtn = document.getElementById('submit_btn')
+        const msg = document.getElementById('help_msg')
 
         if (pw !== rePw) {
-            document.getElementById('help_msg').innerText = "비밀번호가 일치하지 않아요"
+            msg.innerText = "비밀번호가 일치하지 않아요 🤔"
+            msg.style.color = "coral"
             submitBtn.disabled = true
             submitBtn.style.backgroundColor = "#ddd"
 
         }
         if (pw === rePw) {
-            document.getElementById('help_msg').innerText = "비밀번호가 일치합니다"
+            msg.innerText = "비밀번호가 일치합니다 👍"
+            msg.style.color = "green"
             submitBtn.disabled = false
             submitBtn.style.backgroundColor = "#F50000"
         }
     }
-
 
     const submitValid = () => {
         const id = document.getElementById('userid').value
         const name = document.getElementById('username').value
         const submitBtn = document.getElementById('submit_btn')
 
-        if (id === "") {
-            submitBtn.disabled = true
-            submitBtn.style.backgroundColor = "#ddd"
-        }
         if (id !== "" && name !== "") {
             submitBtn.disabled = false
             submitBtn.style.backgroundColor = "#f50000"
         }
     }
+
+
+
 
 
 
