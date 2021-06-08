@@ -5,8 +5,8 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 app = Flask(__name__)
 
-client = MongoClient('54.180.31.166/', 27017, username="test", password="test")
-db = client.first_mini_project
+client = MongoClient('54.180.31.166', 27017, username="test", password="test")
+db = client.first_mini_projecthttp
 
 SECRET_KEY = 'honeyshare'
 
@@ -47,19 +47,29 @@ def signup_page():
 @app.route("/signup", methods=["POST"])
 def signup():
     # 회원가입
-    return "회원정보 DB에 저장후 jsonify에 success 반환"
+    id_receive = request.form['id']
+    pw_receive = request.form['pw']
+    name_receive = request.form['name']
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+    doc = {
+        "userid": id_receive,  # 아이디
+        "password": pw_hash,  # 비밀번호
+        "username": name_receive,  # 사용자 이름
+    }
+    db.users.insert_one(doc)
+    return jsonify({'result': 'success'})
 
 
 @app.route("/login", methods=["POST"])
 def login():
-    username_receive = request.form['username_give']
-    password_receive = request.form['password_give']
+    id_receive = request.form['id_give']
+    pw_receive = request.form['password_give']
 
-    pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+    pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
+    result = db.users.find_one({'userid': id_receive, 'password': pw_hash})
     if result is not None:
         payload = {
-         'id': username_receive,
+         'id': id_receive,
          'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
