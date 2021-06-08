@@ -1,21 +1,66 @@
-{% extends 'form.html' %}
-<!--  -->
-{% block form %}
+{% extends 'base.html' %}
+{% block content %}
 <section class="section">
     <div class="wrapper">
         <h1 class="title">안녕하세요? 허니쉐어 입니다 👋</h1>
-        <form action="POST" class="form">
-            <div class="form_row">
-                <label for="id" class="label">아이디</label>
-                <input type="text" name="id" class="input">
+        <form class="form">
+            <div class="form-group row">
+                <label for="input-username" class="col-sm-2 col-form-label">아이디</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="input-username">
+                </div>
             </div>
-            <div class="form_row">
-                <label for=" password" class="label">비밀번호</label>
-                <input type="password" name="password" class="input">
+            <div class="form-group row">
+                <label for=" password" class="col-sm-2 col-form-label">비밀번호</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="input-password">
+                </div>
             </div>
-            <a href="#" class="link_signup">아직 회원이 아니신가요?</a>
-            <input type="submit" value="로그인" class="btn-primary form_btn ">
+            <a href="/signup_page" class="link_signup">아직 회원이 아니신가요?</a>
+            <!-- <input type="text" value="로그인" class="btn-primary form_btn"> -->
+            <button type="button" onclick="sign_in()">로그인</button>
         </form>
     </div>
 </section>
-{% endblock form %}
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+function sign_in() {
+    let username = $("#input-username").val()
+    let password = $("#input-password").val()
+
+    if (username == "") {
+        $("#help-id-login").text("아이디를 입력해주세요.")
+        $("#input-username").focus()
+        return;
+    } else {
+        $("#help-id-login").text("")
+    }
+
+    if (password == "") {
+        $("#help-password-login").text("비밀번호를 입력해주세요.")
+        $("#input-password").focus()
+        return;
+    } else {
+        $("#help-password-login").text("")
+    }
+    $.ajax({
+        type: "POST",
+        url: "/login",
+        data: {
+            id_give: username,
+            password_give: password
+        },
+        success: function (response) {
+            if (response['result'] == 'success') {
+                $.cookie('mytoken', response['token'], {path: '/'});
+                window.location.replace("/")
+            } else {
+                alert(response['msg'])
+            }
+        }
+    });
+}
+</script>
+{% endblock javascripts %}

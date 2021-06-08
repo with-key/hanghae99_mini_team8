@@ -62,6 +62,7 @@ def signup():
 
 @app.route("/login", methods=["POST"])
 def login():
+    # 로그인
     id_receive = request.form['id_give']
     pw_receive = request.form['password_give']
 
