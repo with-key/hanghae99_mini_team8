@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container top_container">
+  <div class="container_header">
+    <div class="badge badge-primary">{{post_info.categories}}</div>
+    <h2 class="product-title">{{post_info.postname}}</h2>
+    <div class="header_btns" id="detail-btn-grp">
+      <button class="btns_btn">수정</button>
+      <button class="btns_btn">삭제</button>
+      <button class="btns_btn">목록</button>
+    </div>
+  </div>
+  <div class="row ">
+    <div class="col-md-8 main_left">
+      <img src="{{post_info.image}}" alt="" class="product-img">
+    </div>
+    <div class="col-md-4 main_right">
+      <div class="author">{{post_info.userid}}</div>
+      <div class="product-score">{{post_info.grade}}</div>
+      <div class="product-label">{{post_info.price}}</div>
+      <a class="product_link">상품 바로가기</a>
+    </div>
+  </div>
+</div>
+<div class="container bot_container">
+  <div class="product-group">
+    <div class="product_recomm">
+      <div class="sub_title">좋은 점</div>
+      <div class="desc">{{post_info.recommendation}}</div>
+    </div>
+    <div class="product_mytip">
+      <div class="sub_title">나만의 꿀팁</div>
+      <div class="desc">{{post_info.honeytip}}</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const isMe = '{{status}}'
+  console.log(isMe);
+  if (isMe === "True") {
+    document.getElementById('detail-btn-grp').style.display = "block"
+  } else if (isMe === "False") {
+    document.getElementById('detail-btn-grp').style.display = "none"
+  }
+
+
+
+</script>
+{% endblock content %}
