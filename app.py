@@ -191,5 +191,18 @@ def post_detail(postid):
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 
+@app.route('/post_delete', methods=['POST'])
+def post_delete():
+    try:
+        postid = request.form['postid_give']
+        # 게시글 delete 버튼을 본인만 누를 수 있음 (bon in ah nim button an Dum)
+        db.posts.delete_one({'post_id': postid})
+        return jsonify({'result': 'success'})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
