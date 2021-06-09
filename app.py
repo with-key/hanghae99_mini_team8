@@ -8,7 +8,8 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-client = MongoClient("54.180.31.166", 27017, username="test", password="test")
+# client = MongoClient("54.180.31.166", 27017, username="test", password="test")
+client = MongoClient('localhost', 27017)
 db = client.first_mini_project
 
 SECRET_KEY = "honeyshare"
@@ -108,6 +109,9 @@ def posting():
     token_receive = request.cookies.get("mytoken")
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # 포스팅하기
+        user_info = db.users.find_one({"username": payload["id"]})
+        
         userid = db.users.find_one({"userid": payload["id"]})
 
 #웹에서 오는것

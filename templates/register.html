@@ -8,9 +8,16 @@
       <form>
         <!-- 제목 -->
         <div class="form-group row">
-          <label for="input-title" class="col-sm-2 col-form-label">제목</label>
+          <label for="input-postname" class="col-sm-2 col-form-label">제목</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="input-title">
+            <input type="text" class="form-control" id="input-postname">
+          </div>
+        </div>
+        <!-- 작성자 -->
+        <div class="form-group row">
+          <label for="input-userid" class="col-sm-2 col-form-label">작성자</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="input-userid" value="{{userid}}" readonly>
           </div>
         </div>
         <!-- 카테고리 -->
@@ -18,15 +25,15 @@
           <label for="input-category" class="col-sm-2 col-form-label">카테고리</label>
           <div class="col-sm-10">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="radio-category" id="radio-category1">
+              <input class="form-check-input" type="radio" name="radio-category" value="데스크꿀템" id="radio-category1">
               <label class="form-check-label" for="radio-category1">데스크꿀템</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="radio-category" id="radio-category2">
+              <input class="form-check-input" type="radio" name="radio-category" value="시간절약꿀템" id="radio-category2">
               <label class="form-check-label" for="radio-category2">시간절약꿀템</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="radio-category" id="radio-category3">
+              <input class="form-check-input" type="radio" name="radio-category" value="식품/건강꿀템" id="radio-category3">
               <label class="form-check-label" for="radio-category3">식품/건강꿀템</label>
             </div>
           </div>
@@ -43,39 +50,39 @@
           <label for="input-score" class="col-sm-2 col-form-label">평점</label>
           <div class="col-sm-10">
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="radio-score" id="radio-score1">
+              <input class="form-check-input" type="radio" name="radio-score" value="1" id="radio-score1">
               <label class="form-check-label" for="radio-score1">1점</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="radio-score" id="radio-score2">
+              <input class="form-check-input" type="radio" name="radio-score" value="2" id="radio-score2">
               <label class="form-check-label" for="radio-score2">2점</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="radio-score" id="radio-score3">
+              <input class="form-check-input" type="radio" name="radio-score" value="3" id="radio-score3">
               <label class="form-check-label" for="radio-score3">3점</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="radio-score" id="radio-score4">
+              <input class="form-check-input" type="radio" name="radio-score" value="4" id="radio-score4">
               <label class="form-check-label" for="radio-score4">4점</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="radio-score" id="radio-score5">
+              <input class="form-check-input" type="radio" name="radio-score" value="5" id="radio-score5">
               <label class="form-check-label" for="radio-score5">5점</label>
             </div>
           </div>
         </div>
         <!-- 좋았던 점 -->
         <div class="form-group row">
-          <label for="input-good" class="col-sm-2 col-form-label">좋았던 점</label>
+          <label for="input-recommendation" class="col-sm-2 col-form-label">좋았던 점</label>
           <div class="col-sm-10">
-            <textarea id="input-good" rows="8" cols="50" class="form-control"></textarea>
+            <textarea id="input-recommendation" rows="8" cols="50" class="form-control"></textarea>
           </div>
         </div>
         <!-- 꿀팁 -->
         <div class="form-group row">
-          <label for="input-recommad" class="col-sm-2 col-form-label">꿀팁</label>
+          <label for="input-honeytip" class="col-sm-2 col-form-label">꿀팁</label>
           <div class="col-sm-10">
-            <textarea id="input-recommad" rows="8" cols="50" class="form-control"></textarea>
+            <textarea id="input-honeytip" rows="8" cols="50" class="form-control"></textarea>
           </div>
         </div>
       </form>
@@ -84,7 +91,40 @@
 
   <div class="button-group mt-4 mb-5 text-center">
     <a href="/" class="btn btn-lg btn-outline-secondary">목록</a>
-    <button type="submit" class="btn btn-lg btn-primary">꿀템등록</button>
+    <button type="button" onclick="post()" class="btn btn-lg btn-primary">꿀템등록</button>
   </div>
 </div>
+
 {% endblock content %}
+
+{% block javascripts %}
+<script>
+  function post() {
+      let postname_val       = $("#input-postname").val()                     // 글제목
+      let userid_val         = $("#input-userid").val()                       // 작성자
+      let categories_val     = $("input[name='radio-category']:checked").val() // 카테고리
+      let mdurl_val          = $("#input-url").val()                         // URL
+      let grade_val          = $("input[name='radio-score']:checked").val()  // 평점
+      let recommendation_val = $("#input-recommendation").val()              // 좋았던 점
+      let honeytip_val       = $("#input-honeytip").val()                    // 꿀팁
+
+      $.ajax({
+          type: "POST",
+          url: "/post",
+          data: {
+              postname: postname_val,
+              userid: userid_val,
+              categories: categories_val,
+              mdurl: mdurl_val,
+              grade: grade_val,
+              recommendation: recommendation_val,
+              honeytip: honeytip_val
+          },
+          success: function (response) {
+              window.location.reload()
+              modal('post 성공~~~~~~!');
+          }
+      })
+  }
+</script>
+{% endblock javascripts %}
