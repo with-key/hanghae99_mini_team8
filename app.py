@@ -50,7 +50,6 @@ def categories(categories):
         return redirect(url_for("login_page"))
 
 
-
 @app.route("/login_page")
 def login_page():
     return render_template("login.html")
@@ -236,17 +235,15 @@ def post_detail(postid):
     token_receive = request.cookies.get("mytoken")
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
-        post_id = db.posts.find_one({"post_id": postid})
-        user_id = payload["id"]
-        status = user_id == post_id["userid"]
-
-        # 로그인아이디와 해당 포스트 작성자가 일치하면 True > true 받으면 수정 삭제 버튼 노출
+        user_id = payload["id"]  # 로그인한 사용자
 
         post_info = db.posts.find_one({"post_id": postid})
+        # --> 예상기 : 현재 접속한 사용자의 아이디와 글 작성자의 아이디를 클라이언트로 보냅니다.
+        # 클라에서는 서버에서 받은 값을 자바스크립트로 검증하여 버튼 노출 여부를 결정합니다.
 
         # 해당 포스트 아이디에 대한 posts 데이터베이스 결과값 리스트로 반환
         # return jsonify({'result': 'success', 'status': status, 'post_info': post_info})
-        return render_template("detail.html", status=status, post_info=post_info)
+        return render_template("detail.html", user_id=user_id, post_info=post_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
