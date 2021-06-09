@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', runFunction);
 
 // * == Run!!!! ======== * //
-function runFunction(){
+function runFunction() {
   mainHeight();
   menu();
   resizingTimeoutFunction();
@@ -10,28 +10,32 @@ function runFunction(){
 
 // * == (Read device orientation) ======== * //
 function readDeviceOrientation() {
-  window.addEventListener('orientationchange', function() {
-    setTimeOutF(mainHeight);
-  }, false);
+  window.addEventListener(
+    'orientationchange',
+    function () {
+      setTimeOutF(mainHeight);
+    },
+    false
+  );
 }
 
 // * == (Resizing) ======== * //
-function resizingTimeoutFunction(){
+function resizingTimeoutFunction() {
   setTimeOutF(resizing);
 
-  function resizing(){
+  function resizing() {
     // window.onresize = mainHeight, removeActive;
     window.onresize = resizeAll;
   }
 }
 
-function resizeAll(){
+function resizeAll() {
   mainHeight();
   removeActive();
 }
 
 // * == (SetTimeOut) ======== * //
-function setTimeOutF(rsto){
+function setTimeOutF(rsto) {
   var resizingTimeout;
 
   clearTimeout(resizingTimeout);
@@ -39,19 +43,20 @@ function setTimeOutF(rsto){
 }
 
 // * == (Detect main height) ======== * //
-function mainHeight(){
-  var header           = document.getElementById('header');
-  var main             = document.getElementById('content');
-  var footer           = document.getElementById('footer');
+function mainHeight() {
+  var header = document.getElementById('header');
+  var main = document.getElementById('content');
+  var footer = document.getElementById('footer');
 
-  var headerH          = header.getBoundingClientRect().height || 0;
-  var mainH            = main.getBoundingClientRect().height || 0;
-  var footerH          = footer.getBoundingClientRect().height || 0;
-  var windowH          = window.innerHeight ||
-                         document.documentElement.clientHeight ||
-                         document.body.clientHeight;
+  var headerH = header.getBoundingClientRect().height || 0;
+  var mainH = main.getBoundingClientRect().height || 0;
+  var footerH = footer.getBoundingClientRect().height || 0;
+  var windowH =
+    window.innerHeight ||
+    document.documentElement.clientHeight ||
+    document.body.clientHeight;
 
-  var mainMinH         = windowH - headerH - footerH;
+  var mainMinH = windowH - headerH - footerH;
 
   main.style.minHeight = mainMinH + 'px';
 
@@ -65,9 +70,9 @@ function mainHeight(){
 }
 
 // * == (Menu check) ======== * //
-function menu(){
-  var mainmenu          = document.getElementById('mainMenu');
-  var menuchildren      = mainmenu.children;
+function menu() {
+  var mainmenu = document.getElementById('mainMenu');
+  var menuchildren = mainmenu.children;
   var menuGrandChildren = mainmenu.getElementsByTagName('ul');
 
   for (var i = 0; i < menuGrandChildren.length; i++) {
@@ -88,35 +93,31 @@ function toggleCollapse() {
     var classes = element.className.split('');
     var i = classes.indexOf('is-visible');
 
-    if (i >= 0)
-      classes.splice(i, 1);
-    else
-      classes.push('is-visible');
-      element.className = classes.join('');
+    if (i >= 0) classes.splice(i, 1);
+    else classes.push('is-visible');
+    element.className = classes.join('');
   }
-
 }
 
-
 // * == (Mobile sidebar) ======== * //
-function removeActive(){
-  var wrap              = document.getElementById('wrap');
-  var mainmenu          = document.getElementById('mainMenu');
-  var menuchildren      = mainmenu.children;
+function removeActive() {
+  var wrap = document.getElementById('wrap');
+  var mainmenu = document.getElementById('mainMenu');
+  var menuchildren = mainmenu.children;
   var menuGrandChildren = mainmenu.getElementsByTagName('ul');
 
-  if(window.innerWidth >= 1200){
+  if (window.innerWidth >= 1200) {
     removeClass(wrap, 'is-active');
   }
 }
 
 // * == (AddClass) ======== * //
 function addClass(element, className) {
-  element.className += " " + className;
+  element.className += ' ' + className;
 }
 
 // * == (RemoveClass) ======== * //
 function removeClass(element, className) {
-  var check = new RegExp("(\\s|^)" + className + "(\\s|$)");
-  element.className = element.className.replace(check, " ").trim();
+  var check = new RegExp('(\\s|^)' + className + '(\\s|$)');
+  element.className = element.className.replace(check, ' ').trim();
 }

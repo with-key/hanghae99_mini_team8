@@ -27,7 +27,7 @@
         </div>
         <div id="help_msg"></div>
         <div class="sign_up_btn_set">
-            <a href="/" class="sign_up_btn_default">이전</a>
+            <a href="/main" class="sign_up_btn_default">이전</a>
             <button class="sign_up_btn" onclick="getSignup()" id="submit_btn" disabled>완료</button>
         </div>
     </div>
@@ -48,7 +48,7 @@
             success: function (res) {
                 if (res['result'] == 'success') {
                     alert('회원가입이 완료되었습니다.');
-                    window.location.replace("/")
+                    window.location.replace("/main")
                 } else {
                     alert(res['msg']);
                 }

@@ -24,7 +24,7 @@ def main():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         user_info = db.users.find_one({"userid": payload["id"]})
-        posts = list(db.posts.find({}).sort("post_id", -1))
+        posts = list(db.posts.find({}).sort("date", -1))
         ##date값 유효성만 확인되면 date값으로 넣으면 됨
         return render_template("main.html", user_info=user_info, posts=posts)
 
@@ -40,9 +40,9 @@ def categories(categories):
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         user_info = db.users.find_one({"userid": payload["id"]})
-        posts = list(db.posts.find({"categories": categories}).sort("post_id", -1))
+        posts = list(db.posts.find({"categories": categories}).sort("date", -1))
         ## date 값 유효성 인증 시 date 값 사용
-        return render_template("home.html", user_info=user_info, posts=posts)
+        return render_template("home.html", posts=posts)
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page"))
@@ -111,7 +111,7 @@ def login():
 @app.route("/logout", methods=["GET"])
 def logout():
     session.pop("userid", None)
-    return redirect("/")
+    return redirect("/main")
 
 
 @app.route("/signup/check_dup", methods=["POST"])
@@ -228,16 +228,11 @@ def post_detail(date):
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         date = db.posts.find_one({"date": date})
+        print(date)
         user_id = payload["id"]
         status = user_id == date["userid"]
 
-        # 로그인아이디와 해당 포스트 작성자가 일치하면 True > true 받으면 수정 삭제 버튼 노출
-
-        post_info = db.posts.find_one({"date": date})
-
-        # 해당 포스트 아이디에 대한 posts 데이터베이스 결과값 리스트로 반환
-        # return jsonify({'result': 'success', 'status': status, 'post_info': post_info})
-        return render_template("detail.html", user_id=user_id, post_info=post_info)
+        return render_template("detail.html", user_id=user_id, date=date)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
