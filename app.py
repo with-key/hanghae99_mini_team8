@@ -164,7 +164,13 @@ def posting():
                 "div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR"
             ).text
             price = price + "원"
-            product_name = soup.select_one("#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3").text
+            product_name = soup.select_one("#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3")
+            if product_name is None:
+                product_name = soup.select_one("#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3")
+                ##네이버 플레이 윈도
+            product_name = product_name.text
+
+
         elif "https://smartstore.naver.com/" in mdurl:
             image = soup.select_one("meta[property='og:image']")["content"]
             price = soup.select_one("#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR").text
