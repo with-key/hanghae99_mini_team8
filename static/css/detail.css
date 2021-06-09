@@ -2,7 +2,6 @@
  * Detail
  */
 
-
 .product-img {
   object-fit: cover;
 }
@@ -29,9 +28,9 @@
   font-weight: 500;
 }
 .product-link {
-  color: #f50000;
+  color: #d2302c;
   text-decoration: underline;
 }
 .product-score {
-  color: #f50000;
+  color: #d2302c;
 }
