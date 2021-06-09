@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import jwt
 import hashlib
 from datetime import datetime, timedelta
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 import requests
 from bs4 import BeautifulSoup
 
@@ -23,13 +23,15 @@ SECRET_KEY = "honeyshare"
 def main_page():
     token_receive = request.cookies.get("mytoken")
     try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
-        user_info = db.users.find_one({"username": payload["id"]})
-        return render_template("home.html", user_info=user_info)
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.users.find_one({"userid": payload["id"]})
+        posts = list(db.posts.find({}).sort("post_id", -1))
+        return render_template("home.html", user_info=user_info),jsonify({"msg":posts})
+
     except jwt.ExpiredSignatureError:
-        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+        return redirect(url_for("login_page"))
     except jwt.exceptions.DecodeError:
-        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+        return redirect(url_for("login_page"))
 
 
 @app.route("/login_page")
@@ -160,9 +162,9 @@ def posting():
         return jsonify({"msg": "success"})
 
     except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+        return redirect(url_for("login"))
     except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+        return redirect(url_for("login"))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
