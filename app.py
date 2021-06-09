@@ -94,36 +94,36 @@ def check_dup():
 @app.route("/post",methods=["POST"])
 def posting():
 
-    token_receive = request.cookies.get('mytoken')
+    token_receive = request.cookies.get("mytoken")
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         userid = db.users.find_one({"userid": payload["id"]})
 
 #웹에서 오는것
-        postname = request.form['postname']
-        categories = request.form['categories']
-        mdurl = request.form['mdurl']
-        grade = request.form['grade']
-        recommendation = request.form['recommendation']
-        honeytip = request.form['honeytip']
+        postname = request.form["postname"]
+        categories = request.form["categories"]
+        mdurl = request.form["mdurl"]
+        grade = request.form["grade"]
+        recommendation = request.form["recommendation"]
+        honeytip = request.form["honeytip"]
         image = ""
         price = ""
 #스크래핑 하는것
 
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+            "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
         data = requests.get(mdurl,
                             headers=headers)
-        soup = BeautifulSoup(data.text, 'html.parser')
+        soup = BeautifulSoup(data.text, "html.parser")
 
         if "http://item.gmarket.co.kr/" in mdurl:
-            image = soup.select_one("meta[property='og:image']")['content']
-            price = soup.select_one('#itemcase_basic > div > p > span > strong').text
+            image = soup.select_one("meta[property='og:image']")["content"]
+            price = soup.select_one("#itemcase_basic > div > p > span > strong").text
         elif "shopping.naver.com" in mdurl:
-            image = soup.select_one("meta[property='og:image']")['content']
+            image = soup.select_one("meta[property='og:image']")["content"]
             price = soup.select_one("#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > "
                                     "div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR").text
-            price = price + '원'
+            price = price + "원"
 
         doc = {
             "userid": userid,
