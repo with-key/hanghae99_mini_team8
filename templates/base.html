@@ -29,7 +29,10 @@
 </head>
 
 <body>
-  {% include '_header.html' %}
+  {% block header %}
+    {% include '_header.html' %}
+  {% endblock header %}
+
   {% block content %}
   <div class="content" class="content">
     <div class="container">
