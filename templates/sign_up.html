@@ -1,6 +1,37 @@
 {% extends 'base.html' %}
-
 {% block content %}
+
+<section class="section">
+    <div class="wrapper_sign_up ">
+        <h1 class="title">환영합니다 👋</h1>
+        <div class="sign_up_row">
+            <label for="id" class="sign_up_label ">아이디</label>
+            <input type="text" name="id" class="sign_up_input" id="userid" onkeyup="submitValid()">
+            <div class="help_msg"></div>
+            <button class="sign_up_valid_id" id="valid_btn" onclick="validUserId()">중복확인</button>
+        </div>
+        <div class="sign_up_row">
+            <label for="name" class="sign_up_label">이름</label>
+            <input type="text" name="name" class="sign_up_input" id="username">
+        </div>
+        <br />
+        <div class="sign_up_row">
+            <label for=" password" class="sign_up_label">비밀번호</label>
+            <input type="password" name="password" class="sign_up_input" id="userpw">
+        </div>
+        <div class="sign_up_row">
+            <label for=" password" class="sign_up_label">비밀번호 확인</label>
+            <input type="password" name="password" class="sign_up_input" id="userRePw" onkeyup="validPw()">
+        </div>
+        <div id="help_msg"></div>
+        <div class="sign_up_btn_set">
+            <a href="/" class="sign_up_btn_default">이전</a>
+            <button class="sign_up_btn" onclick="getSignup()" id="submit_btn" disabled>완료</button>
+        </div>
+    </div>
+</section>
+
+<!-- script -->
 <script>
     //  회원가입 완료
     function getSignup() {
@@ -15,6 +46,7 @@
             success: function (res) {
                 if (res['result'] == 'success') {
                     alert('회원가입이 완료되었습니다.');
+                    window.location.replace("/")
                 } else {
                     alert(res['msg']);
                 }
@@ -39,48 +71,50 @@
         });
     }
 
+
+
     // 비밀번호 유효성 체크
     const validPw = () => {
         const pw = document.getElementById('userpw').value
         const rePw = document.getElementById('userRePw').value
+        const submitBtn = document.getElementById('submit_btn')
+        const msg = document.getElementById('help_msg')
 
         if (pw !== rePw) {
-            alert('비밀번호가 일치 하지 않습니다.')
+            msg.innerText = "비밀번호가 일치하지 않아요 🤔"
+            msg.style.color = "coral"
+            submitBtn.disabled = true
+            submitBtn.style.backgroundColor = "#ddd"
+
+        }
+        if (pw === rePw) {
+            msg.innerText = "비밀번호가 일치합니다 👍"
+            msg.style.color = "green"
+            submitBtn.disabled = false
+            submitBtn.style.backgroundColor = "#F50000"
         }
     }
 
+    const submitValid = () => {
+        const id = document.getElementById('userid').value
+        const name = document.getElementById('username').value
+        const submitBtn = document.getElementById('submit_btn')
+
+        if (id !== "" && name !== "") {
+            submitBtn.disabled = false
+            submitBtn.style.backgroundColor = "#f50000"
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 </script>
 
-<section class="section">
-    <div class="wrapper_sign_up ">
-        <h1 class="title">환영합니다 👋</h1>
-        <div class="sign_up_row">
-            <label for="id" class="sign_up_label ">아이디</label>
-            <input type="text" name="id" class="sign_up_input" id="userid">
-            <div class="help_msg"></div>
-            <button class="sign_up_valid_id" id="valid_btn" onclick="validUserId()">중복확인</button>
-        </div>
-        <div class="sign_up_row">
-            <label for="name" class="sign_up_label">이름</label>
-            <input type="text" name="name" class="sign_up_input" id="username">
-        </div>
-        <br />
-        <div class="sign_up_row">
-            <label for=" password" class="sign_up_label">비밀번호</label>
-            <input type="password" name="password" class="sign_up_input" id="userpw">
-        </div>
-        <div class="sign_up_row">
-            <label for=" password" class="sign_up_label">비밀번호 확인</label>
-            <input type="password" name="password" class="sign_up_input" id="userRePw">
-        </div>
-        <div class="sign_up_row">
-            <a href="#" class="signup_agree"> 이용 약관에 동의합니다.</a>
-            <input type="checkbox" name="" id="" required>
-        </div>
-        <div class="sign_up_btn_set">
-            <input value="이전" class="sign_up_btn_default">
-            <button onclick="getSignup()">완료</button>
-        </div>
-    </div>
-</section>
 {% endblock content %}
