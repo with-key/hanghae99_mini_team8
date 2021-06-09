@@ -215,14 +215,6 @@ def posting():
         }
 
         db.posts.insert_one(doc)
-
-        post_id = db.posts.find_one({"date": date})
-        post_id = str(post_id["_id"])
-
-        ##게시물 id값 저장
-        myquery = {"userid": userid}
-        newvalues = {"$set": {"post_id": post_id}}
-        db.posts.update_one(myquery, newvalues)
         return jsonify({"msg": "success"})
 
     except jwt.ExpiredSignatureError:
@@ -231,18 +223,18 @@ def posting():
         return redirect(url_for("login"))
 
 
-@app.route("/post/<postid>")
-def post_detail(postid):
+@app.route("/post/<date>")
+def post_detail(date):
     token_receive = request.cookies.get("mytoken")
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
-        post_id = db.posts.find_one({"post_id": postid})
+        date = db.posts.find_one({"date": date})
         user_id = payload["id"]
-        status = user_id == post_id["userid"]
+        status = user_id == date["userid"]
 
         # 로그인아이디와 해당 포스트 작성자가 일치하면 True > true 받으면 수정 삭제 버튼 노출
 
-        post_info = db.posts.find_one({"post_id": postid})
+        post_info = db.posts.find_one({"date": date})
 
         # 해당 포스트 아이디에 대한 posts 데이터베이스 결과값 리스트로 반환
         # return jsonify({'result': 'success', 'status': status, 'post_info': post_info})
@@ -256,9 +248,9 @@ def post_detail(postid):
 @app.route("/post_delete", methods=["POST"])
 def post_delete():
     try:
-        postid = request.form["postid_give"]
+        date = request.form["date"]
         # 게시글 delete 버튼을 본인만 누를 수 있음 (bon in ah nim button an Dum)
-        db.posts.delete_one({"post_id": postid})
+        db.posts.delete_one({"date": date})
         return jsonify({"result": "success"})
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
