@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-# client = MongoClient("54.180.31.166", 27017, username="test", password="test")
-client = MongoClient('localhost', 27017)
+client = MongoClient("54.180.31.166", 27017, username="test", password="test")
+# client = MongoClient('localhost', 27017)
 db = client.first_mini_project
 
 SECRET_KEY = "honeyshare"
@@ -24,10 +24,10 @@ SECRET_KEY = "honeyshare"
 def main_page():
     token_receive = request.cookies.get("mytoken")
     try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         user_info = db.users.find_one({"userid": payload["id"]})
         posts = list(db.posts.find({}).sort("post_id", -1))
-        return render_template("home.html", user_info=user_info,posts=posts)
+        return render_template("home.html", user_info=user_info, posts=posts)
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page"))
@@ -43,6 +43,7 @@ def login_page():
 @app.route("/signup_page")
 def signup_page():
     return render_template("sign_up.html")
+
 
 @app.route("/register")
 def register_page():
@@ -90,10 +91,11 @@ def login():
     else:
         return jsonify({"result": "fail", "msg": "아이디/비밀번호가 일치하지 않습니다."})
 
-@app.route('/logout',methods=['GET'])
+
+@app.route("/logout", methods=["GET"])
 def logout():
-    session.pop('userid',None)
-    return redirect('/')
+    session.pop("userid", None)
+    return redirect("/")
 
 
 @app.route("/signup/check_dup", methods=["POST"])
@@ -103,18 +105,18 @@ def check_dup():
     return jsonify({"result": "success", "exists": exists})
 
 
-@app.route("/post",methods=["POST"])
+@app.route("/post", methods=["POST"])
 def posting():
 
     token_receive = request.cookies.get("mytoken")
     try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         # 포스팅하기
         user_info = db.users.find_one({"username": payload["id"]})
-        
+
         userid = db.users.find_one({"userid": payload["id"]})
 
-#웹에서 오는것
+        # 웹에서 오는것
         postname = request.form["postname"]
         categories = request.form["categories"]
         mdurl = request.form["mdurl"]
@@ -124,12 +126,12 @@ def posting():
         date = request.form["date"]
         image = ""
         price = ""
-#스크래핑 하는것
+        # 스크래핑 하는것
 
         headers = {
-            "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
-        data = requests.get(mdurl,
-                            headers=headers)
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"
+        }
+        data = requests.get(mdurl, headers=headers)
         soup = BeautifulSoup(data.text, "html.parser")
 
         if "http://item.gmarket.co.kr/" in mdurl:
@@ -137,8 +139,10 @@ def posting():
             price = soup.select_one("#itemcase_basic > div > p > span > strong").text
         elif "shopping.naver.com" in mdurl:
             image = soup.select_one("meta[property='og:image']")["content"]
-            price = soup.select_one("#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > "
-                                    "div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR").text
+            price = soup.select_one(
+                "#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > "
+                "div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR"
+            ).text
             price = price + "원"
 
         doc = {
@@ -152,7 +156,7 @@ def posting():
             "image": image,
             "price": price,
             "post_id": "",
-            "date": date
+            "date": date,
         }
 
         db.posts.insert_one(doc)
@@ -161,10 +165,10 @@ def posting():
         post_id = str(post_id["_id"])
 
         print(post_id)
-##게시물 id값 저장
+        ##게시물 id값 저장
         myquery = {"userid": userid}
         newvalues = {"$set": {"post_id": post_id}}
-        db.posts.update_one(myquery,newvalues)
+        db.posts.update_one(myquery, newvalues)
         return jsonify({"msg": "success"})
 
     except jwt.ExpiredSignatureError:
@@ -173,35 +177,35 @@ def posting():
         return redirect(url_for("login"))
 
 
-@app.route('/post/<postid>')
+@app.route("/post/<postid>")
 def post_detail(postid):
-    token_receive = request.cookies.get('mytoken')
+    token_receive = request.cookies.get("mytoken")
     try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        post_id = db.posts.find_one({'post_id': postid})
-        user_id = payload['id']
-        status = (user_id == post_id['userid'])
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+        post_id = db.posts.find_one({"post_id": postid})
+        user_id = payload["id"]
+        status = user_id == post_id["userid"]
 
         # 로그인아이디와 해당 포스트 작성자가 일치하면 True > true 받으면 수정 삭제 버튼 노출
 
-        post_info = db.posts.find_one({'post_id': postid})
+        post_info = db.posts.find_one({"post_id": postid})
 
         # 해당 포스트 아이디에 대한 posts 데이터베이스 결과값 리스트로 반환
         # return jsonify({'result': 'success', 'status': status, 'post_info': post_info})
-        return render_template('detail.html', status=status, post_info=post_info)
+        return render_template("detail.html", status=status, post_info=post_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/post_delete', methods=['POST'])
+@app.route("/post_delete", methods=["POST"])
 def post_delete():
     try:
-        postid = request.form['postid_give']
+        postid = request.form["postid_give"]
         # 게시글 delete 버튼을 본인만 누를 수 있음 (bon in ah nim button an Dum)
-        db.posts.delete_one({'post_id': postid})
-        return jsonify({'result': 'success'})
+        db.posts.delete_one({"post_id": postid})
+        return jsonify({"result": "success"})
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
