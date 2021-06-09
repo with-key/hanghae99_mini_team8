@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import requests
 from bs4 import BeautifulSoup
-import dbdb
 
 app = Flask(__name__)
 
