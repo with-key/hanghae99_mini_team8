@@ -27,7 +27,23 @@ def main_page():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         user_info = db.users.find_one({"userid": payload["id"]})
         posts = list(db.posts.find({}).sort("post_id", -1))
+        ##date값 유효성만 확인되면 date값으로 넣으면 됨
         return render_template("home.html", user_info=user_info, posts=posts)
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page"))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page"))
+
+@app.route("/<categories>")
+def category(categories):
+    token_receive = request.cookies.get("mytoken")
+    payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+    user_info = db.users.find_one({"username": payload["id"]})
+    try:
+        posts = list(db.posts.find({"categories":categories}).sort("post_id", -1))
+        ## date 값 유효성 인증 시 date 값 사용
+        return jsonify({"msg":posts})
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page"))
@@ -126,6 +142,7 @@ def posting():
         date = request.form["date"]
         image = ""
         price = ""
+        product_name = ""
         # 스크래핑 하는것
 
         headers = {
