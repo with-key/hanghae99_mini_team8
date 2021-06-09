@@ -26,7 +26,7 @@ def main_page():
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         user_info = db.users.find_one({"userid": payload["id"]})
         posts = list(db.posts.find({}).sort("post_id", -1))
-        return render_template("home.html", user_info=user_info),jsonify({"msg":posts})
+        return render_template("home.html", user_info=user_info,posts=posts)
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page"))
