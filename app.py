@@ -117,6 +117,7 @@ def posting():
         grade = request.form["grade"]
         recommendation = request.form["recommendation"]
         honeytip = request.form["honeytip"]
+        date = request.form["date"]
         image = ""
         price = ""
 #스크래핑 하는것
@@ -146,7 +147,8 @@ def posting():
             "honeytip": honeytip,
             "image": image,
             "price": price,
-            "post_id": ""
+            "post_id": "",
+            "date": date
         }
 
         db.posts.insert_one(doc)
@@ -183,6 +185,19 @@ def post_detail(postid):
         # 해당 포스트 아이디에 대한 posts 데이터베이스 결과값 리스트로 반환
         # return jsonify({'result': 'success', 'status': status, 'post_info': post_info})
         return render_template('detail.html', status=status, post_info=post_info)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
+
+@app.route('/post_delete', methods=['POST'])
+def post_delete():
+    try:
+        postid = request.form['postid_give']
+        # 게시글 delete 버튼을 본인만 누를 수 있음 (bon in ah nim button an Dum)
+        db.posts.delete_one({'post_id': postid})
+        return jsonify({'result': 'success'})
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
