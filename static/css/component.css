@@ -2,7 +2,6 @@
  * Component
  */
 
-
 .page-title {
   margin-top: 60px;
   margin-bottom: 30px;
@@ -14,8 +13,8 @@ Button
 
 .btn-primary {
   color: #fff;
-  background-color: #f50000;
-  border-color: #f50000;
+  background-color: #d2302c;
+  border-color: #d2302c;
 }
 
 .btn-primary:hover {
@@ -30,12 +29,11 @@ Button
 }
 .btn-filter.active {
   color: #fff;
-  background-color: #f50000;
-  border-color: #f50000;
+  background-color: #d2302c;
+  border-color: #d2302c;
 }
 
 .button-group {
-
 }
 /* ============
 Pagination 
@@ -50,6 +48,6 @@ Pagination
   color: #666;
 }
 .page-link.active {
-  color: #f50000;
+  color: #d2302c;
   font-weight: 500;
 }

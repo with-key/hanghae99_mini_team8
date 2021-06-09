@@ -22,22 +22,26 @@ Header
 }
 
 .logo-text {
-  color: #f50000;
+  color: #d2302c;
 }
 
 /* ============
 Footer 
 ============ */
 .footer {
-  /* height: 125px; */
   color: #ffffff;
-  text-align: center;
-  background: #191a1b;
+  text-align: right;
+  background: #d2302c;
   padding: 30px 0;
   width: 100%;
+  /* position: fixed; */
+  bottom: 0;
+  height: 100px;
+  border-radius: 10px 10px 0 0;
 }
 
 .footer p {
+  font-size: 10px;
   margin-bottom: 0;
 }
 /* 

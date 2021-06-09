@@ -121,6 +121,7 @@ def posting():
         grade = request.form["grade"]
         recommendation = request.form["recommendation"]
         honeytip = request.form["honeytip"]
+        date = request.form["date"]
         image = ""
         price = ""
 #스크래핑 하는것
@@ -150,7 +151,8 @@ def posting():
             "honeytip": honeytip,
             "image": image,
             "price": price,
-            "post_id": ""
+            "post_id": "",
+            "date": date
         }
 
         db.posts.insert_one(doc)
@@ -169,6 +171,42 @@ def posting():
         return redirect(url_for("login"))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login"))
+
+
+@app.route('/post/<postid>')
+def post_detail(postid):
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        post_id = db.posts.find_one({'post_id': postid})
+        user_id = payload['id']
+        status = (user_id == post_id['userid'])
+
+        # 로그인아이디와 해당 포스트 작성자가 일치하면 True > true 받으면 수정 삭제 버튼 노출
+
+        post_info = db.posts.find_one({'post_id': postid})
+
+        # 해당 포스트 아이디에 대한 posts 데이터베이스 결과값 리스트로 반환
+        # return jsonify({'result': 'success', 'status': status, 'post_info': post_info})
+        return render_template('detail.html', status=status, post_info=post_info)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
+
+@app.route('/post_delete', methods=['POST'])
+def post_delete():
+    try:
+        postid = request.form['postid_give']
+        # 게시글 delete 버튼을 본인만 누를 수 있음 (bon in ah nim button an Dum)
+        db.posts.delete_one({'post_id': postid})
+        return jsonify({'result': 'success'})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
