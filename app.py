@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from flask import Flask, render_template, jsonify, request, redirect, url_for
 import requests
 from bs4 import BeautifulSoup
+import dbdb
 
 app = Flask(__name__)
 
@@ -40,6 +41,10 @@ def login_page():
 @app.route("/signup_page")
 def signup_page():
     return render_template("sign_up.html")
+
+@app.route("/register")
+def register_page():
+    return render_template("register.html")
 
 
 #############################
@@ -82,6 +87,11 @@ def login():
     # 찾지 못하면
     else:
         return jsonify({"result": "fail", "msg": "아이디/비밀번호가 일치하지 않습니다."})
+
+@app.route('/logout',methods=['GET'])
+def logout():
+    session.pop('userid',None)
+    return redirect('/')
 
 
 @app.route("/signup/check_dup", methods=["POST"])
