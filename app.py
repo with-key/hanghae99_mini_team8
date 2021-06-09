@@ -117,6 +117,7 @@ def posting():
         grade = request.form["grade"]
         recommendation = request.form["recommendation"]
         honeytip = request.form["honeytip"]
+        date = request.form["date"]
         image = ""
         price = ""
 #스크래핑 하는것
@@ -146,7 +147,8 @@ def posting():
             "honeytip": honeytip,
             "image": image,
             "price": price,
-            "post_id": ""
+            "post_id": "",
+            "date": date
         }
 
         db.posts.insert_one(doc)
