@@ -17,7 +17,7 @@
 
   <!-- Custom -->
   {% block stylesheet %}
-  <link rel="stylesheet" href="static/css/style.css">
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
   {% endblock %}
 
   <title>{% block title %}Honey Share{% endblock %}</title>
@@ -25,19 +25,19 @@
 
 <body>
   {% block header %}
-    {% include '_header.html' %}
+  {% include '_header.html' %}
   {% endblock header %}
 
   <div class="content" class="content">
-  {% block content %}
-  {% endblock content %}
+    {% block content %}
+    {% endblock content %}
   </div>
 
   {% include '_footer.html' %}
 
   <script>
     function sign_out() {
-      $.removeCookie('mytoken', {path: '/'});
+      $.removeCookie('mytoken', { path: '/' });
       alert('로그아웃!')
       window.location.href = "/"
     }
