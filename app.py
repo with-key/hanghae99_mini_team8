@@ -133,21 +133,37 @@ def posting():
         }
         data = requests.get(mdurl, headers=headers)
         soup = BeautifulSoup(data.text, "html.parser")
-
+    ##지마켓
         if "http://item.gmarket.co.kr/" in mdurl:
             image = soup.select_one("meta[property='og:image']")["content"]
             price = soup.select_one("#itemcase_basic > div > p > span > strong").text
-        elif "shopping.naver.com" in mdurl:
+            product_name = soup.select_one("#itemcase_basic > div.box__item-title > h1").text
+    ##네이벼 쇼핑
+        elif "https://shopping.naver.com/" in mdurl:
             image = soup.select_one("meta[property='og:image']")["content"]
             price = soup.select_one(
                 "#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > "
                 "div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR"
             ).text
             price = price + "원"
+            product_name = soup.select_one("#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3").text
+        elif "https://smartstore.naver.com/" in mdurl:
+            image = soup.select_one("meta[property='og:image']")["content"]
+            price = soup.select_one("#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR").text
+            price = price + "원"
+            product_name = soup.select_one("#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3").text
+    ##네이버 최저가 비교 상품일 때
+        elif "https://search.shopping.naver.com/catalog" in mdurl:
+            image = soup.select_one("#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.style_content_wrap__2VTVx > div.style_content__36DCX > div > div.image_thumb_area__1dzNx > div > div > img")['src']
+            price = soup.select_one("#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.style_content_wrap__2VTVx > div.style_content__36DCX > div > div.summary_info_area__3XT5U > div.lowestPrice_price_area__OkxBK > div.lowestPrice_low_price__fByaG > em").text
+            price = price + "원"
+            product_name = soup.select_one("#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.top_summary_title__15yAr > h2").text
 
+            print(product_name,postname)
         doc = {
             "userid": userid,
             "postname": postname,
+            "product_name": product_name,
             "categories": categories,
             "mdurl": mdurl,
             "grade": grade,
@@ -161,10 +177,10 @@ def posting():
 
         db.posts.insert_one(doc)
 
-        post_id = db.posts.find_one({"userid": userid})
+        post_id = db.posts.find_one({"date": date})
         post_id = str(post_id["_id"])
 
-        print(post_id)
+
         ##게시물 id값 저장
         myquery = {"userid": userid}
         newvalues = {"$set": {"post_id": post_id}}
