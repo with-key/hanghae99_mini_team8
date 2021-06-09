@@ -2,10 +2,9 @@
  * Home
  */
 
-
 .main-banner {
   /* background-color: #FFD200; */
-  background-color: #1d1e1f;
+  background-color: #d2302c;
 }
 
 .main-banner .banner {
@@ -18,7 +17,7 @@
 
 .main-title,
 .main-desc {
-  color: #ffffff;
+  color: #f7f7f9;
 }
 
 .main-title {

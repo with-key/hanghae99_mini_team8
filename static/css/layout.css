@@ -22,7 +22,7 @@ Header
 }
 
 .logo-text {
-  color: #f50000;
+  color: #d2302c;
 }
 
 /* ============
@@ -32,7 +32,7 @@ Footer
   /* height: 125px; */
   color: #ffffff;
   text-align: center;
-  background: #191a1b;
+  background: #d2302c;
   padding: 30px 0;
   width: 100%;
 }
