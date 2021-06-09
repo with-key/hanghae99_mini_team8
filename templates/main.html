@@ -5,7 +5,7 @@
 <div class="main-banner">
     <div class="container">
         <div class="banner">
-            <h3 class="h1 main-title">허니쉐어입니다 🍯</h3>
+            <h3 class="h1 main-title">안녕하세요, {{user_info.username}}님! 허니쉐어입니다 🍯 </h3>
             <p class="main-desc">
                 허니쉐어는 항해99 동안 완전한 몰입을 위해<br>
                 좋은 꿀템리스트를 서로 쉐어하는 공유하는 곳 입니다
@@ -27,14 +27,14 @@
             {% for post in posts %}
             <div class="col-md-4">
                 <div class="card">
-                    <a href="post/{{post.date}}" class="card_contents">
+                    <a href="post/{{post.date}}">
                         <img src="{{post.image}}" alt="" class="card-img-top">
                         <div class="card-body">
-                            <div class="product-desc text-truncate postname">{{post.postname}}</div>
-                            <div class="product-price text-truncate">{{post.recommendation}}</div>
+                            <p class="product-desc text-truncate postname">{{post.postname}}</p>
+                            <p class="product-price text-truncate">{{post.product_name}}</p>
                             <div class="card_bottom">
                                 <div class="product-score">{{post.grade}}</div>
-                                <div class="product-score">{{post.userid}}</div>
+                                <div class="product-score">{{post.userid.username}}</div>
                             </div>
                         </div>
                     </a>
@@ -43,6 +43,6 @@
             {% endfor %}
         </div>
     </div>
-    {% include '_pagination.html' %}
+    <!-- {% include '_pagination.html' %} -->
 </div>
 {% endblock %}

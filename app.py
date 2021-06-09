@@ -42,7 +42,7 @@ def categories(categories):
         user_info = db.users.find_one({"userid": payload["id"]})
         posts = list(db.posts.find({"categories": categories}).sort("date", -1))
         ## date 값 유효성 인증 시 date 값 사용
-        return render_template("home.html", posts=posts)
+        return render_template("home.html", user_info=user_info, posts=posts)
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page"))
@@ -62,6 +62,7 @@ def signup_page():
 
 @app.route("/register")
 def register_page():
+
     return render_template("register.html")
     # return redirect(url_for("login_page"))
 

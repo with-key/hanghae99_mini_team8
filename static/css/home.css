@@ -35,7 +35,8 @@
 
 .card-list .card {
   margin-bottom: 30px;
-  border: none;
+  border: 1px solid #eee;
+  border-radius: 10px;
 }
 .card:hover {
   transform: translateY(-10px);

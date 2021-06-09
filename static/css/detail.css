@@ -2,11 +2,13 @@
  * Detail
  */
 
-.container {
+.score {
+  font-size: 25px;
 }
 
 /* header */
 .container_header {
+  padding-right: 15px;
   display: flex;
   justify-content: space-between;
   margin: 20px 0;
@@ -73,5 +75,14 @@
 .product_link {
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: -15px;
+}
+
+.product-title {
+  width: 630px;
+}
+
+.product-img {
+  width: 300px;
+  border-radius: 10px;
 }
