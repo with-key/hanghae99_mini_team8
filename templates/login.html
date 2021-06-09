@@ -59,7 +59,7 @@
             },
             success: function (response) {
                 if (response['result'] == 'success') {
-                    $.cookie('mytoken', response['token'], { path: '/main' });
+                    $.cookie('mytoken', response['token'], { path: '/' });
                     alert('로그인 하셨습니다.');
                     // window.location.replace("/main")
                     window.location.href = '/main'
