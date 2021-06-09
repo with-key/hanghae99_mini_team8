@@ -3,7 +3,6 @@
 {% block title %}Honey Share | 홈{% endblock %}
 {% block content %}
 <div class="main-banner">
-	<div>{{user_info.userid}}</div>
 	<div class="container">
 		<div class="banner">
 			<h3 class="h1 main-title">허니쉐어입니다 🍯</h3>
@@ -28,12 +27,15 @@
 			{% for post in posts %}
 			<div class="col-md-4">
 				<div class="card">
-					<a href="post/{{post.post_id}}">
-						<img src="../static/images/product1.jpg" alt="" class="card-img-top">
+					<a href="post/{{post.post_id}}" class="card_contents">
+						<img src="{{post.image}}" alt="" class="card-img-top">
 						<div class="card-body">
-							<p class="product-desc text-truncate">{{post.postname}}</p>
-							<p class="product-price text-truncate">{{post.price}}</p>
-							<p class="product-score">★★★★☆</p>
+							<div class="product-desc text-truncate postname">{{post.postname}}</div>
+							<div class="product-price text-truncate">{{post.recommendation}}</div>
+							<div class="card_bottom">
+								<div class="product-score">{{post.grade}}</div>
+								<div class="product-score">{{post.userid}}</div>
+							</div>
 						</div>
 					</a>
 				</div>
@@ -41,8 +43,6 @@
 			{% endfor %}
 		</div>
 	</div>
-
 	{% include '_pagination.html' %}
-
 </div>
 {% endblock %}

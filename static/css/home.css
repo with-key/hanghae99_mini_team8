@@ -8,10 +8,6 @@
 }
 
 .main-banner .banner {
-  /* background-image: url(../images/main-banner-sample.png);
-  background-position: center right;
-  background-repeat: no-repeat;
-  background-size: 325px 235px; */
   padding: 100px 0;
 }
 
@@ -39,4 +35,27 @@
 
 .card-list .card {
   margin-bottom: 30px;
+  border: none;
+}
+.card:hover {
+  transform: translateY(-10px);
+  transition: all 300ms;
+}
+
+.card_contents {
+  text-decoration: none;
+}
+
+.postname {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+
+.card_bottom {
+  display: flex;
+  justify-content: space-between;
+}
+.card_bottom div {
+  color: #333;
 }
