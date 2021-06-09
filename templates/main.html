@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Honey Share | 홈{% endblock %}
+{% block content %}
+<div class="main-banner">
+    <div class="container">
+        <div class="banner">
+            <h3 class="h1 main-title">허니쉐어입니다 🍯</h3>
+            <p class="main-desc">
+                허니쉐어는 항해99 동안 완전한 몰입을 위해<br>
+                좋은 꿀템리스트를 서로 쉐어하는 공유하는 곳 입니다
+                내가 사용해 본 제품 중 좋은 제품이 있다면, <br>
+                꿀템 등록버튼을 꾸욱 눌러서 언제든지 공유해주세요!
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="filter-group">
+        <a class="btn btn-lg btn-filter active" href="/main">추천 꿀템</a>
+        <a class="btn btn-lg btn-filter" href="/desk_item">데스크 꿀템</a>
+        <a class="btn btn-lg btn-filter" href="/time_item">시간절약 꿀템</a>
+        <a class="btn btn-lg btn-filter" href="/health_item">식품/건강 꿀템</a>
+    </div>
+    <div class="card-list">
+        <div class="row">
+            {% for post in posts %}
+            <div class="col-md-4">
+                <div class="card">
+                    <a href="post/{{post.post_id}}" class="card_contents">
+                        <img src="{{post.image}}" alt="" class="card-img-top">
+                        <div class="card-body">
+                            <div class="product-desc text-truncate postname">{{post.postname}}</div>
+                            <div class="product-price text-truncate">{{post.recommendation}}</div>
+                            <div class="card_bottom">
+                                <div class="product-score">{{post.grade}}</div>
+                                <div class="product-score">{{post.userid}}</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% include '_pagination.html' %}
+</div>
+{% endblock %}
