@@ -35,6 +35,8 @@ Pagination
 ============ */
 .pagination {
   justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 60px;
 }
 
 .page-link {
