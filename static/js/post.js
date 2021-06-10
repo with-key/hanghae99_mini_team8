@@ -1,6 +1,5 @@
 $(document).ready(function () {
     post_before();
-    alert('3939')
 })
 
 function post_before() {
