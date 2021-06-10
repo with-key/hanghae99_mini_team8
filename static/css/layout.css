@@ -18,11 +18,7 @@ Header
 }
 
 .header .logo {
-  width: 120px;
-}
-
-.logo-text {
-  color: #d2302c;
+  width: 180px;
 }
 
 /* ============
@@ -31,13 +27,12 @@ Footer
 .footer {
   color: #ffffff;
   text-align: right;
-  background: #d2302c;
+  background: #3a221c;
   padding: 30px 0;
   width: 100%;
   /* position: fixed; */
   bottom: 0;
   height: 100px;
-  border-radius: 10px 10px 0 0;
 }
 
 .footer p {
