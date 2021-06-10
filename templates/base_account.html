@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap.css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <!-- XEIcon -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+  <!-- Jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+  <!-- Custom -->
+  {% block stylesheet %}
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  {% endblock %}
+
+  <title>Honey Share | {% block title %}{% endblock %}</title>
+</head>
+
+<body>
+  <div class="content" id="content" style="display: flex; align-items: center; justify-content: center;">
+    {% block content %}
+    {% endblock content %}
+  </div>
+
+  {% include '_footer.html' %}
+
+  <script>
+    function sign_out() {
+      $.removeCookie('mytoken', { path: '/' });
+      alert('로그아웃!')
+      window.location.href = "/main"
+    }
+
+    $(document).ready(function(){
+      let footer = $("footer")
+      let content = $("#content")
+      let body = $("body")
+
+      let footerH = footer.outerHeight(true)
+      let contentH = content.outerHeight(true)
+      let bodyH = body.outerHeight(true)
+
+      let mainMinH = bodyH - footerH;
+
+      content.css('height', mainMinH);
+    });
+
+  
+
+  </script>
+  {% block javascripts %}
+
+  {% endblock javascripts %}
+
+</body>
+
+</html>
