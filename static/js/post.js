@@ -1,5 +1,3 @@
-
-
 function clickFunct() {
     registerValdation()
     post()

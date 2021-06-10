@@ -112,7 +112,7 @@
 
         <div class="button-group mt-4 mb-5 text-center">
             <a href="/main" class="btn btn-lg btn-outline-secondary">목록</a>
-            <button type="button" onclick="clickEdit()" class="btn btn-lg btn-primary">꿀템등록</button>
+            <button type="button" class="btn btn-lg btn-primary" onclick="registerValdation()">꿀템등록</button>
         </div>
     </div>
 
@@ -151,6 +151,79 @@
                 $("input[id='radio-category3']").prop('checked', true);
             }
         }
+
+        function registerValdation() {
+            let postnameSelct = $("#input-postname")
+            let useridSelct = $("#input-userid")
+            let categoriesSelct = $("input[name='radio-category']:checked")
+            let mdurlSelct = $("#input-url")
+            let gradeSelct = $("input[name='radio-score']:checked")
+            let recommendationSelct = $("#input-recommendation")
+            let honeytipSelct = $("#input-honeytip")
+
+            let postname_val = postnameSelct.val()               // 글제목
+            let userid_val = useridSelct.val()                   // 작성자
+            let categories_val = categoriesSelct.val()           // 카테고리
+            let mdurl_val = mdurlSelct.val()                     // URL
+            let grade_val = gradeSelct.val()                     // 평점
+            let recommendation_val = recommendationSelct.val()   // 좋았던 점
+            let honeytip_val = honeytipSelct.val()               // 꿀팁
+
+
+            // == 1. postname
+            if (postname_val == "") {
+                postnameSelct.siblings(".validation-message").text("제목을 입력해주세요.")
+                postnameSelct.focus()
+                return;
+            } else {
+                postnameSelct.text("")
+            }
+
+            // == 2. categories
+            if (categories_val == undefined) {
+                $("input[name='radio-category']").parent().siblings(".validation-message").text("카테고리를 선택해주세요.")
+                return;
+            } else {
+                categoriesSelct.text("")
+            }
+
+            // == 3. mdurl
+            if (mdurl_val == "") {
+                mdurlSelct.siblings(".validation-message").text("공유하고 싶은 상품링크를 입력해주세요.")
+                mdurlSelct.focus()
+                return;
+            } else {
+                mdurlSelct.text("")
+            }
+
+            // == 4. grade
+            if (grade_val == undefined) {
+                $("input[name='radio-score']").parent().siblings(".validation-message").text("평점을 선택해주세요.")
+                return;
+            } else {
+                gradeSelct.text("")
+            }
+
+            // == 5. postname
+            if (recommendation_val == "") {
+                recommendationSelct.siblings(".validation-message").text("좋았던 점을 입력해주세요.")
+                recommendationSelct.focus()
+                return;
+            } else {
+                recommendationSelct.text("")
+            }
+
+            // == 6. honeytip
+            if (honeytip_val == "") {
+                honeytipSelct.siblings(".validation-message").text("꿀팁을 입력해주세요.")
+                honeytipSelct.focus()
+                return;
+            } else {
+                honeytipSelct.text("")
+            }
+            console.log(postname_val, userid_val, categories_val, mdurl_val, grade_val, recommendation_val, honeytip_val)
+        }
+
 
     </script>
 {% endblock javascripts %}
