@@ -98,16 +98,22 @@ def register_page():
 def signup():
     # 회원가입
     id_receive = request.form["id"]
-    pw_receive = request.form["pw"]
-    name_receive = request.form["name"]
-    pw_hash = hashlib.sha256(pw_receive.encode("utf-8")).hexdigest()
-    doc = {
-        "userid": id_receive,  # 아이디
-        "password": pw_hash,  # 비밀번호
-        "username": name_receive,  # 사용자 이름
-    }
-    db.users.insert_one(doc)
-    return jsonify({"result": "success"})
+    id_db = db.users.find_one({"userid":id_receive})
+    if id_db is None:
+
+        pw_receive = request.form["pw"]
+        name_receive = request.form["name"]
+        pw_hash = hashlib.sha256(pw_receive.encode("utf-8")).hexdigest()
+        doc = {
+            "userid": id_receive,  # 아이디
+            "password": pw_hash,  # 비밀번호
+            "username": name_receive,  # 사용자 이름
+        }
+        db.users.insert_one(doc)
+        return jsonify({"result": "success"})
+
+    else:
+        return jsonify({"result": "fail"})
 
 
 @app.route("/login", methods=["POST"])
