@@ -28,7 +28,7 @@
   {% include '_header.html' %}
   {% endblock header %}
 
-  <div class="content" class="content">
+  <div class="content" id="content">
     {% block content %}
     {% endblock content %}
   </div>
@@ -41,6 +41,29 @@
       alert('로그아웃!')
       window.location.href = "/main"
     }
+
+    $(document).ready(function(){
+      let header = $("header")
+      let footer = $("footer")
+      let content = $("#content")
+      let body = $("body")
+
+      let headerH = header.outerHeight(true)
+      let footerH = footer.outerHeight(true)
+      let contentH = content.outerHeight(true)
+      let bodyH = body.outerHeight(true)
+
+      let mainMinH = bodyH - headerH - footerH;
+      // console.log(mainMinH);
+
+      content.css('height', mainMinH);
+
+      console.log(headerH, footerH, bodyH, mainMinH);
+      console.log(content);
+    });
+
+  
+
   </script>
   {% block javascripts %}
 
