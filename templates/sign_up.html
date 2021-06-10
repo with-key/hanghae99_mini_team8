@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'base_account.html' %}
 
-{% block header %}{% endblock header %}
+{% block title %}회원가입{% endblock %}
 
 {% block content %}
 <section class="section">
-    <div class="wrapper_sign_up ">
+    <div class="wrapper wrapper_sign_up ">
         <h1 class="title">환영합니다 👋</h1>
         <div class="sign_up_row">
             <label for="id" class="sign_up_label ">아이디</label>
@@ -50,7 +50,7 @@
                     alert('회원가입이 완료되었습니다.');
                     window.location.replace("/main")
                 } else {
-                    alert(res['msg']);
+                    alert('중복된 아이디입니다!');
                 }
             },
         });

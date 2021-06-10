@@ -1,7 +1,10 @@
 /**
  * Layout
  */
-
+html, body {
+  height: 100%;
+  min-height: 100%;
+}
 .content {
   min-height: 700px;
 }
@@ -10,7 +13,7 @@
 Header 
 ============ */
 .header {
-  padding: 15px 0;
+  padding: 20px 0;
   border-bottom: 1px solid #e3e3e3;
 }
 .header .row {
@@ -18,11 +21,7 @@ Header
 }
 
 .header .logo {
-  width: 120px;
-}
-
-.logo-text {
-  color: #d2302c;
+  width: 180px;
 }
 
 /* ============
@@ -31,13 +30,12 @@ Footer
 .footer {
   color: #ffffff;
   text-align: right;
-  background: #d2302c;
+  background: #3a221c;
   padding: 30px 0;
   width: 100%;
   /* position: fixed; */
   bottom: 0;
   height: 100px;
-  border-radius: 10px 10px 0 0;
 }
 
 .footer p {

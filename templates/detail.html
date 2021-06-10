@@ -1,62 +1,77 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ date.product_name }}{% endblock %}
 {% block content %}
-    <div class="container top_container">
-        <div class="container_header">
-            <div class="badge badge-primary"></div>
-            <h2 class="product-title">{{ date.product_name }}</h2>
-            <div class="row" style="gap: 5px">
-                <div id="detail-btn-grp">
-                    <a href="/edit_detail/{{ date.date }}">
-                        <button class="btns_btn" id="update_btn">수정</button>
-                    </a>
-                    <button class="btns_btn" id="delete_btn">삭제</button>
+    <div class="container">
+        <!-- Button -->
+        <div class="button-group-product">
+            <div id="detail-btn-grp" class="button-item-update">
+                <button class="btns_btn">수정</button>
+                <button class="btns_btn" id="delete_btn">삭제</button>
+            </div>
+            <a href="/main">
+                <button class="btns_btn">목록</button>
+            </a>
+        </div>
+
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+                <div class="img-group">
+                    <img src="{{ date.image }}" alt="image" class="product-img">
                 </div>
-                <a href="/main">
-                    <button class="btns_btn">목록</button>
-                </a>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8 main_left" style="text-align: center;">
-                <img src="{{ date.image }}" alt="image" class="product-img">
-            </div>
-            <div class="col-md-4 main_right">
-                <div class="author">작성자 {{ date.userid.username }}</div>
-                <div class="score" id="grade">추천점수 {{ date.grade }} 점</div>
-                <div class="price">가격 {{ date.price }}</div>
-                <a class="product_link" href="{{ date.mdurl }}" target="_blank">상품 바로가기</a>
-            </div>
-        </div>
-        <hr style="margin: 40px 0;"/>
-    </div>
-    <div class="container bot_container">
-        <div class="row">
-            <div class="col-md-8 main_left">
+            <div class="col-md-6">
+                <!-- 카테고리 -->
+                <div class="category">
+        <span class="badge badge-primary">
+          {{ "데스크꿀템" if date.categories == "desk_item"
+          else "식품/건강꿀템" if date.categories == "health_item"
+                  else "시간절약꿀템" if date.categories == "time_item"}}</span>
+                </div>
+                <!-- 상품명 -->
+                <h2 class="product-title">{{ date.product_name }}</h2>
+                <!-- 가격 -->
+                <div class="price">
+                    <p class="product-val">{{ date.price }}</p>
+                </div>
+                <!-- 작성자 -->
+                <div class="author">
+                    <p class="product-label">작성자</p>
+                    <p class="product-val">{{ date.userid.username }}</p>
+                </div>
+                <!-- 추천점수 -->
+                <div class="score">
+                    <p class="product-label">추천점수</p>
+                    <p class="product-val" id="grade">{{ date.grade }} 점</p>
+                </div>
+                <!-- 좋은 점 -->
                 <div class="product_recomm">
-                    <div class="sub_title">좋은 점</div>
-                    <div class="desc">{{ date.recommendation }}</div>
+                    <p class="product-label">좋은 점</p>
+                    <p class="product-val">{{ date.recommendation }}</p>
                 </div>
+                <!-- 나만의 꿀팁 -->
                 <div class="product_mytip">
-                    <div class="sub_title">나만의 꿀팁</div>
-                    <div class="desc">{{ date.honeytip }}</div>
+                    <p class="product-label">나만의 꿀팁</p>
+                    <p class="product-val">{{ date.honeytip }}</p>
                 </div>
-            </div>
-            <div class="col-md-4 main_left">
-
+                <div class="product-btn-shortcut">
+                    <a class="btn btn-lg btn-primary w-100" href="{{ date.mdurl }}" target="_blank">상품 바로가기</a>
+                </div>
             </div>
         </div>
-
     </div>
 
+{% endblock content %}
+
+{% block javascripts %}
     <script>
         const creatorId = '{{date.userid.userid}}'
         const currentId = '{{user_id}}' // 접속자 아이디
 
-        console.log(creatorId, currentId);
+        // console.log(creatorId, currentId);
 
         if (creatorId === currentId) {
-            document.getElementById('detail-btn-grp').style.display = "block"
+            document.getElementById('detail-btn-grp').style.display = "inline-block"
         } else if (creatorId !== currentId) {
             document.getElementById('detail-btn-grp').style.display = "none"
         }
@@ -72,22 +87,18 @@
                         date: "{{date.date}}"
                     },
                     success: function (res) {
-                        console.log(res);
+                        // console.log(res);
                         window.location.replace("/main")
                     }
                 });
                 alert('삭제되었습니다.')
                 window.location.replace('/main')
-            } else {
-                console.log('no');
             }
         }
         const delete_btn = document.getElementById('delete_btn')
         delete_btn.addEventListener('click', deletePost)
 
-
         const grade = '{{date.grade}}'
-        console.log(grade);
         // 별을 만들자
         let star = ""
         for (let i = 1; i <= grade; i++) {
@@ -95,7 +106,5 @@
         }
         // 별을 넣자
         document.getElementById('grade').innerText = star
-
-
     </script>
-{% endblock content %}
+{% endblock javascripts %}

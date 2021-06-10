@@ -4,7 +4,11 @@
 
 .main-banner {
   /* background-color: #FFD200; */
-  background-color: #d2302c;
+  background-color: #fae8bb;
+  background-image: url(../images/banner.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .main-banner .banner {
@@ -13,10 +17,11 @@
 
 .main-title,
 .main-desc {
-  color: #f7f7f9;
+  color: #ffffff;
 }
 
 .main-title {
+  font-family: 'BMJUA';
   margin-bottom: 20px;
 }
 .main-desc {

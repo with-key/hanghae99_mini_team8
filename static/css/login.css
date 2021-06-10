@@ -26,7 +26,7 @@
 .wrapper {
   padding: 1.6rem;
   width: 550px;
-  height: 350px;
+  min-height: 350px;
   border: 1px solid #ddd;
   border-radius: 8px;
   position: relative;
@@ -64,10 +64,11 @@
 }
 
 .link_signup {
-  position: absolute;
-  right: 75px;
+  /* position: absolute;
+  right: 75px; */
   color: dodgerblue;
-  font-size: 12px;
+  font-size: 14px;
+  text-align: right;
 }
 
 /*  */

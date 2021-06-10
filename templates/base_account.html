@@ -24,11 +24,7 @@
 </head>
 
 <body>
-  {% block header %}
-  {% include '_header.html' %}
-  {% endblock header %}
-
-  <div class="content" id="content">
+  <div class="content" id="content" style="display: flex; align-items: center; justify-content: center;">
     {% block content %}
     {% endblock content %}
   </div>
@@ -43,23 +39,17 @@
     }
 
     $(document).ready(function(){
-      let header = $("header")
       let footer = $("footer")
       let content = $("#content")
       let body = $("body")
 
-      let headerH = header.outerHeight(true)
       let footerH = footer.outerHeight(true)
       let contentH = content.outerHeight(true)
       let bodyH = body.outerHeight(true)
 
-      let mainMinH = bodyH - headerH - footerH;
-      // console.log(mainMinH);
+      let mainMinH = bodyH - footerH;
 
       content.css('min-height', mainMinH);
-
-      console.log(headerH, footerH, bodyH, mainMinH);
-      console.log(content);
     });
 
   

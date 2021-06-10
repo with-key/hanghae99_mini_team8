@@ -2,25 +2,55 @@
  * Component
  */
 
+/* ============
+Font 
+============ */
+@font-face {
+  font-family: 'BMJUA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 .page-title {
+  font-family: 'BMJUA';
   margin-top: 60px;
   margin-bottom: 30px;
 }
-
+#help-id-login,
+#help-password-login,
+.validation-message {
+  color: #d2302c;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.form-url-guide {
+  color: #666666;
+  margin-top: 10px;
+}
 /* ============
 Button 
 ============ */
 
 .btn-primary {
   color: #fff;
-  background-color: #d2302c;
-  border-color: #d2302c;
+  background-color: #ffa200;
+  border-color: #ffa200;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #d30808;
-  border-color: #d30808;
+  background-color: #df8e03;
+  border-color: #df8e03;
+}
+
+.btn-outline-primary {
+  border: 1px solid #ffa200;
+  color: #f0ae34;
+}
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color: #ffa200;
+  border-color: #ffa200;
 }
 
 .btn-filter {
@@ -29,8 +59,8 @@ Button
 }
 .btn-filter.active {
   color: #fff;
-  background-color: #d2302c;
-  border-color: #d2302c;
+  background-color: #ffa200;
+  border-color: #ffa200;
 }
 
 .button-group {
@@ -51,3 +81,8 @@ Pagination
   color: #d2302c;
   font-weight: 500;
 }
+
+
+/* .badge-primary {
+  background-color: #f50000;
+} */
