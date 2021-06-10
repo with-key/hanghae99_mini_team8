@@ -10,6 +10,9 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+.product-score span {
+  color: #d80a0a;
+}
 
 .main-banner .banner {
   padding: 100px 0;
@@ -43,12 +46,13 @@
   border: 1px solid #eee;
   border-radius: 10px;
 }
+
 .card:hover {
   transform: translateY(-10px);
   transition: all 300ms;
 }
 
-.card_contents {
+.card a {
   text-decoration: none;
 }
 

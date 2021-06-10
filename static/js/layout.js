@@ -60,11 +60,8 @@ function mainHeight() {
 
   main.style.minHeight = mainMinH + 'px';
 
-  // console.log('windowH :' + windowH + 'px','headerH :' + headerH + 'px', 'mainMinH :' + mainMinH + 'px', 'footerH :' + footerH + 'px');
-
   if (mainH < mainMinH) {
     main.style.minHeight = mainMinH + 'px';
-    // console.log('mainH < mainMinH, mainMinH :' + mainMinH + 'px', 'mainH :' + mainH + 'px');
   }
   // alert('메인');
 }

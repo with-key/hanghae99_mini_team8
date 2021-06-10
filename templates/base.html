@@ -42,7 +42,7 @@
       window.location.href = "/main"
     }
 
-    $(document).ready(function(){
+    $(document).ready(function () {
       let header = $("header")
       let footer = $("footer")
       let content = $("#content")
@@ -54,15 +54,15 @@
       let bodyH = body.outerHeight(true)
 
       let mainMinH = bodyH - headerH - footerH;
-      // console.log(mainMinH);
+
 
       content.css('min-height', mainMinH);
 
-      console.log(headerH, footerH, bodyH, mainMinH);
-      console.log(content);
+
+
     });
 
-  
+
 
   </script>
   {% block javascripts %}
