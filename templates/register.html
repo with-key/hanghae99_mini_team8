@@ -209,8 +209,15 @@
         date: Date.now()
       },
       success: function (response) {
+          let msg = response["msg"]
+
+          if (msg == "success") {
         window.location.href = "/main"
         alert('꿀템이 등록되었습니다!');
+        }
+          else if (msg == "fail") {
+              alert("url을 확인해주세요!");
+          }
       }
     })
   }
