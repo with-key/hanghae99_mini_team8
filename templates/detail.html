@@ -19,7 +19,7 @@
     </div>
     <div class="col-md-4 main_right">
       <div class="author">작성자 {{date.userid.username}}</div>
-      <div class="score">추천점수 {{date.grade}} 점</div>
+      <div class="score" id="grade">추천점수 {{date.grade}} 점</div>
       <div class="price">가격 {{date.price}}</div>
       <a class="product_link" href="{{date.mdurl}}" target="_blank">상품 바로가기</a>
     </div>
@@ -57,7 +57,6 @@
     document.getElementById('detail-btn-grp').style.display = "none"
   }
 
-  const delete_btn = document.getElementById('delete_btn')
 
   const deletePost = () => {
     const result = confirm("이 꿀템을 정말 삭제 할까요?")
@@ -79,9 +78,18 @@
       console.log('no');
     }
   }
-
+  const delete_btn = document.getElementById('delete_btn')
   delete_btn.addEventListener('click', deletePost)
 
+  const grade = '{{date.grade}}'
+  console.log(grade);
+  // 별을 만들자
+  let star = ""
+  for (let i = 1; i <= grade; i++) {
+    star = star + "★"
+  }
+  // 별을 넣자
+  document.getElementById('grade').innerText = star
 
 
 
