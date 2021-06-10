@@ -1,117 +1,112 @@
 {% extends 'base.html' %}
-
+{% block title %}꿀템 등록하기{% endblock title %}
 {% block content %}
-    <div class="container">
-        <h1 class="h1 page-title">꿀템 등록하기</h1>
-        <div class="card">
-            <div class="card-body">
-                <form>
-                    <!-- 제목 -->
-                    <div class="form-group row">
-                        <label for="input-postname" class="col-sm-2 col-form-label">제목</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="input-postname">
-                            <p class="validation-message"></p>
-                        </div>
+<div class="container">
+    <h1 class="h1 page-title">꿀템 등록하기</h1>
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <!-- 제목 -->
+                <div class="form-group row">
+                    <label for="input-postname" class="col-sm-2 col-form-label">제목</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="input-postname">
+                        <p class="validation-message"></p>
                     </div>
-                    <!-- 작성자 -->
-                    <div class="form-group row">
-                        <label for="input-userid" class="col-sm-2 col-form-label">작성자</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="input-userid" value="{{user_id}}" readonly>
-                        </div>
+                </div>
+                <!-- 작성자 -->
+                <div class="form-group row">
+                    <label for="input-userid" class="col-sm-2 col-form-label">작성자</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="input-userid" value="{{user_id}}" readonly>
                     </div>
-                    <!-- 카테고리 -->
-                    <div class="form-group row">
-                        <label for="input-category" class="col-sm-2 col-form-label">카테고리</label>
-                        <div class="col-sm-10">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio-category" value="desk_item"
-                                       id="radio-category1">
-                                <label class="form-check-label" for="radio-category1">데스크꿀템</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio-category" value="time_item"
-                                       id="radio-category2">
-                                <label class="form-check-label" for="radio-category2">시간절약꿀템</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio-category" value="health_item"
-                                       id="radio-category3">
-                                <label class="form-check-label" for="radio-category3">식품/건강꿀템</label>
-                            </div>
-                            <p class="validation-message"></p>
+                </div>
+                <!-- 카테고리 -->
+                <div class="form-group row">
+                    <label for="input-category" class="col-sm-2 col-form-label">카테고리</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio-category" value="desk_item"
+                                id="radio-category1">
+                            <label class="form-check-label" for="radio-category1">데스크꿀템</label>
                         </div>
-                    </div>
-                    <!-- URL -->
-                    <div class="form-group row">
-                        <label for="input-url" class="col-sm-2 col-form-label">URL</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="input-url">
-                            <p class="form-url-guide"><strong>URL 작성시 tip</strong><br>
-                                1. https://가 들어가게 링크를 입력해주세요.<br>
-                                2. Naver와 Gmarket 상품 링크만 입력 가능합니다.
-                            </p>
-                            <p class="validation-message"></p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio-category" value="time_item"
+                                id="radio-category2">
+                            <label class="form-check-label" for="radio-category2">시간절약꿀템</label>
                         </div>
-                    </div>
-                    <!-- 평점 -->
-                    <div class="form-group row">
-                        <label for="input-score" class="col-sm-2 col-form-label">평점</label>
-                        <div class="col-sm-10">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio-score" value="1"
-                                       id="radio-score1">
-                                <label class="form-check-label" for="radio-score1">1점</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio-score" value="2"
-                                       id="radio-score2">
-                                <label class="form-check-label" for="radio-score2">2점</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio-score" value="3"
-                                       id="radio-score3">
-                                <label class="form-check-label" for="radio-score3">3점</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio-score" value="4"
-                                       id="radio-score4">
-                                <label class="form-check-label" for="radio-score4">4점</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radio-score" value="5"
-                                       id="radio-score5">
-                                <label class="form-check-label" for="radio-score5">5점</label>
-                            </div>
-                            <p class="validation-message"></p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio-category" value="health_item"
+                                id="radio-category3">
+                            <label class="form-check-label" for="radio-category3">식품/건강꿀템</label>
                         </div>
+                        <p class="validation-message"></p>
                     </div>
-                    <!-- 좋았던 점 -->
-                    <div class="form-group row">
-                        <label for="input-recommendation" class="col-sm-2 col-form-label">좋았던 점</label>
-                        <div class="col-sm-10">
-                            <textarea id="input-recommendation" rows="8" cols="50" class="form-control"></textarea>
-                            <p class="validation-message"></p>
+                </div>
+                <!-- URL -->
+                <div class="form-group row">
+                    <label for="input-url" class="col-sm-2 col-form-label">URL</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="input-url">
+                        <p class="form-url-guide"><strong>URL 작성시 tip</strong><br>
+                            1. https://가 들어가게 링크를 입력해주세요.<br>
+                            2. Naver와 Gmarket 상품 링크만 입력 가능합니다.
+                        </p>
+                        <p class="validation-message"></p>
+                    </div>
+                </div>
+                <!-- 평점 -->
+                <div class="form-group row">
+                    <label for="input-score" class="col-sm-2 col-form-label">평점</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio-score" value="1" id="radio-score1">
+                            <label class="form-check-label" for="radio-score1">1점</label>
                         </div>
-                    </div>
-                    <!-- 꿀팁 -->
-                    <div class="form-group row">
-                        <label for="input-honeytip" class="col-sm-2 col-form-label">꿀팁</label>
-                        <div class="col-sm-10">
-                            <textarea id="input-honeytip" rows="8" cols="50" class="form-control"></textarea>
-                            <p class="validation-message"></p>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio-score" value="2" id="radio-score2">
+                            <label class="form-check-label" for="radio-score2">2점</label>
                         </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio-score" value="3" id="radio-score3">
+                            <label class="form-check-label" for="radio-score3">3점</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio-score" value="4" id="radio-score4">
+                            <label class="form-check-label" for="radio-score4">4점</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="radio-score" value="5" id="radio-score5">
+                            <label class="form-check-label" for="radio-score5">5점</label>
+                        </div>
+                        <p class="validation-message"></p>
                     </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="button-group mt-4 mb-5 text-center">
-            <a href="/main" class="btn btn-lg btn-outline-secondary">목록</a>
-            <button type="button" onclick="clickFunct()" class="btn btn-lg btn-primary">꿀템등록</button>
+                </div>
+                <!-- 좋았던 점 -->
+                <div class="form-group row">
+                    <label for="input-recommendation" class="col-sm-2 col-form-label">좋았던 점</label>
+                    <div class="col-sm-10">
+                        <textarea id="input-recommendation" rows="8" cols="50" class="form-control"></textarea>
+                        <p class="validation-message"></p>
+                    </div>
+                </div>
+                <!-- 꿀팁 -->
+                <div class="form-group row">
+                    <label for="input-honeytip" class="col-sm-2 col-form-label">꿀팁</label>
+                    <div class="col-sm-10">
+                        <textarea id="input-honeytip" rows="8" cols="50" class="form-control"></textarea>
+                        <p class="validation-message"></p>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+
+    <div class="button-group mt-4 mb-5 text-center">
+        <a href="/main" class="btn btn-lg btn-outline-secondary">목록</a>
+        <button type="button" onclick="clickFunct()" class="btn btn-lg btn-primary">꿀템등록</button>
+    </div>
+</div>
 
 {% endblock content %}
 

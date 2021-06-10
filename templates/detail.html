@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% block title %}{{date.product_name}}{% endblock %}
 {% block content %}
 <div class="container">
   <!-- Button -->
@@ -63,7 +64,7 @@
   const creatorId = '{{date.userid.userid}}'
   const currentId = '{{user_id}}' // 접속자 아이디
 
-  console.log(creatorId, currentId);
+  // console.log(creatorId, currentId);
 
   if (creatorId === currentId) {
     document.getElementById('detail-btn-grp').style.display = "block"
@@ -82,21 +83,18 @@
           date: "{{date.date}}"
         },
         success: function (res) {
-          console.log(res);
+          // console.log(res);
           window.location.replace("/main")
         }
       });
       alert('삭제되었습니다.')
       window.location.replace('/main')
-    } else {
-      console.log('no');
     }
   }
   const delete_btn = document.getElementById('delete_btn')
   delete_btn.addEventListener('click', deletePost)
 
   const grade = '{{date.grade}}'
-  console.log(grade);
   // 별을 만들자
   let star = ""
   for (let i = 1; i <= grade; i++) {
