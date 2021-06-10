@@ -18,9 +18,12 @@
       </div>
     </div>
     <div class="col-md-6">
-      <!-- 카테고라 -->
+      <!-- 카테고리 -->
       <div class="category">
-        <span class="badge badge-primary">{{date.categories}}</span>
+        <span class="badge badge-primary">
+          {{"데스크꿀템" if date.categories == "desk_item"
+          else "식품/건강꿀템" if date.categories == "health_item"
+          else "시간절약꿀템" if date.categories == "time_item"}}</span>
       </div>
       <!-- 상품명 -->
       <h2 class="product-title">{{date.product_name}}</h2>
@@ -30,13 +33,13 @@
       </div>
       <!-- 작성자 -->
       <div class="author">
-        <p class="product-label">작성자</p> 
+        <p class="product-label">작성자</p>
         <p class="product-val">{{date.userid.username}}</p>
       </div>
       <!-- 추천점수 -->
-      <div class="score" id="grade">
+      <div class="score">
         <p class="product-label">추천점수</p>
-        <p class="product-val">{{date.grade}} 점</p>
+        <p class="product-val" id="grade"></p>
       </div>
       <!-- 좋은 점 -->
       <div class="product_recomm">
