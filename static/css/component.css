@@ -42,7 +42,11 @@ Button
   background-color: #df8e03;
   border-color: #df8e03;
 }
-
+.btn-primary.disabled, 
+.btn-primary:disabled {
+  background-color: #daac5e;
+  border-color: #daac5e;
+}
 .btn-outline-primary {
   border: 1px solid #ffa200;
   color: #f0ae34;
