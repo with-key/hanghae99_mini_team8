@@ -13,6 +13,7 @@
 }
 .product-val {
   font-size: 30px;
+  margin-bottom: 20px;
 }
 .price .product-val {
   font-size: 40px;
@@ -43,9 +44,6 @@
 
 
 
-.score {
-  font-size: 25px;
-}
 
 /* header */
 .container_header {
