@@ -18,6 +18,13 @@ SECRET_KEY = "honeyshare"
 #############################
 ###       router          ###
 #############################
+
+@app.errorhandler(404)
+def page_not_found(error):
+    print(error)
+    return redirect(url_for("main"))  # 없는 페이지로 클라에서 요청했을 때 메인으로 보내기
+
+
 @app.route("/main")
 def main():
     token_receive = request.cookies.get("mytoken")
@@ -38,13 +45,20 @@ def main():
 def categories(categories):
     token_receive = request.cookies.get("mytoken")
     try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
-        user_info = db.users.find_one({"userid": payload["id"]})
-        posts = list(db.posts.find({"categories": categories}).sort("date", -1))
-        ## date 값 유효성 인증 시 date 값 사용
-        return render_template(
-            "home.html", user_info=user_info, posts=posts, categories=categories
-        )
+
+        if (  # 클라에서 받은 url이 아래 3개 중에 1개에 해당하면, home rendering
+                categories == "desk_item"
+                or categories == "time_item"
+                or categories == "health_item"
+        ):
+
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+            user_info = db.users.find_one({"userid": payload["id"]})
+            posts = list(db.posts.find({"categories": categories}).sort("date", -1))
+            ## date 값 유효성 인증 시 date 값 사용
+            return render_template("home.html", user_info=user_info, posts=posts, categories=categories)
+        else:  # 클라에서 받은 url이 유효하지 않으면 메인으로 redirect
+            return redirect(url_for("main"))
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page"))
@@ -165,10 +179,10 @@ def posting():
             naver = "https://shopping.naver.com/"
             naver2 = "https://smartstore.naver.com/"
             naver_lowprice = "https://search.shopping.naver.com/catalog"
-            # 좋았던점, 꿀팁 유효성 검사 
-            if recommendation is "":
+            # 좋았던점, 꿀팁 유효성 검사
+            if recommendation == "":
                 return
-            if honeytip is "":
+            if honeytip == "":
                 return
 
             ##url 유효성 검사
