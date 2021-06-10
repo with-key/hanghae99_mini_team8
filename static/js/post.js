@@ -1,7 +1,6 @@
 $(document).ready(function () {
     post_before();
 })
-
 const currentId = '{{user_id}}' // 접속자 아이디
 
 console.log(currentId);
@@ -40,6 +39,7 @@ function registerValdation() {
     let grade_val = gradeSelct.val()                     // 평점
     let recommendation_val = recommendationSelct.val()   // 좋았던 점
     let honeytip_val = honeytipSelct.val()               // 꿀팁
+
 
     // == 1. postname
     if (postname_val == "") {

@@ -318,7 +318,8 @@ def post_delete():
 @app.route('/edit_detail/<date>')
 def edit_detail(date):
     try:
-        date_info = db.posts.find_one({"date": date})
+        date = db.posts.find_one({"date": date})
+        print(date)
         return render_template("edit.html", date=date)
 
     except jwt.ExpiredSignatureError:
