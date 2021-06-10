@@ -290,7 +290,6 @@ def post_detail(date):
 
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         date = db.posts.find_one({"date": date})
-        print(date)
         user_id = payload["id"]
         status = user_id == date["userid"]
 
@@ -316,13 +315,12 @@ def post_delete():
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/edit/<date>', methods=['GET'])
+@app.route('/edit_detail/<date>')
 def edit_detail(date):
     try:
-        # 상세페이지에서 수정 버튼을 누르면 해당하는 DB를 리스트로 던져줌
-        if request.method == 'GET':
-            date = db.posts.find_one({"date": date})
-            return render_template("edit.html", date=date)
+        date_info = db.posts.find_one({"date": date})
+        return render_template("edit.html", date=date)
+
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:

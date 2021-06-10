@@ -1,97 +1,101 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container top_container">
-  <div class="container_header">
-    <div class="badge badge-primary"></div>
-    <h2 class="product-title">{{date.product_name}}</h2>
-    <div class="row" style="gap: 5px">
-      <div id="detail-btn-grp">
-        <button class="btns_btn">수정</button>
-        <button class="btns_btn" id="delete_btn">삭제</button>
-      </div>
-      <a href="/main"><button class="btns_btn">목록</button></a>
+    <div class="container top_container">
+        <div class="container_header">
+            <div class="badge badge-primary"></div>
+            <h2 class="product-title">{{ date.product_name }}</h2>
+            <div class="row" style="gap: 5px">
+                <div id="detail-btn-grp">
+                    <a href="/edit_detail/{{ date.date }}">
+                        <button class="btns_btn" id="update_btn">수정</button>
+                    </a>
+                    <button class="btns_btn" id="delete_btn">삭제</button>
+                </div>
+                <a href="/main">
+                    <button class="btns_btn">목록</button>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 main_left" style="text-align: center;">
+                <img src="{{ date.image }}" alt="image" class="product-img">
+            </div>
+            <div class="col-md-4 main_right">
+                <div class="author">작성자 {{ date.userid.username }}</div>
+                <div class="score" id="grade">추천점수 {{ date.grade }} 점</div>
+                <div class="price">가격 {{ date.price }}</div>
+                <a class="product_link" href="{{ date.mdurl }}" target="_blank">상품 바로가기</a>
+            </div>
+        </div>
+        <hr style="margin: 40px 0;"/>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-8 main_left" style="text-align: center;">
-      <img src="{{date.image}}" alt="image" class="product-img">
-    </div>
-    <div class="col-md-4 main_right">
-      <div class="author">작성자 {{date.userid.username}}</div>
-      <div class="score" id="grade">추천점수 {{date.grade}} 점</div>
-      <div class="price">가격 {{date.price}}</div>
-      <a class="product_link" href="{{date.mdurl}}" target="_blank">상품 바로가기</a>
-    </div>
-  </div>
-  <hr style="margin: 40px 0;" />
-</div>
-<div class="container bot_container">
-  <div class="row">
-    <div class="col-md-8 main_left">
-      <div class="product_recomm">
-        <div class="sub_title">좋은 점</div>
-        <div class="desc">{{date.recommendation}}</div>
-      </div>
-      <div class="product_mytip">
-        <div class="sub_title">나만의 꿀팁</div>
-        <div class="desc">{{date.honeytip}}</div>
-      </div>
-    </div>
-    <div class="col-md-4 main_left">
+    <div class="container bot_container">
+        <div class="row">
+            <div class="col-md-8 main_left">
+                <div class="product_recomm">
+                    <div class="sub_title">좋은 점</div>
+                    <div class="desc">{{ date.recommendation }}</div>
+                </div>
+                <div class="product_mytip">
+                    <div class="sub_title">나만의 꿀팁</div>
+                    <div class="desc">{{ date.honeytip }}</div>
+                </div>
+            </div>
+            <div class="col-md-4 main_left">
+
+            </div>
+        </div>
 
     </div>
-  </div>
 
-</div>
+    <script>
+        const creatorId = '{{date.userid.userid}}'
+        const currentId = '{{user_id}}' // 접속자 아이디
 
-<script>
-  const creatorId = '{{date.userid.userid}}'
-  const currentId = '{{user_id}}' // 접속자 아이디
+        console.log(creatorId, currentId);
 
-  console.log(creatorId, currentId);
-
-  if (creatorId === currentId) {
-    document.getElementById('detail-btn-grp').style.display = "block"
-  } else if (creatorId !== currentId) {
-    document.getElementById('detail-btn-grp').style.display = "none"
-  }
-
-
-  const deletePost = () => {
-    const result = confirm("이 꿀템을 정말 삭제 할까요?")
-    if (result) {
-      $.ajax({
-        type: "POST",
-        url: "/post_delete",
-        data: {
-          date: "{{date.date}}"
-        },
-        success: function (res) {
-          console.log(res);
-          window.location.replace("/main")
+        if (creatorId === currentId) {
+            document.getElementById('detail-btn-grp').style.display = "block"
+        } else if (creatorId !== currentId) {
+            document.getElementById('detail-btn-grp').style.display = "none"
         }
-      });
-      alert('삭제되었습니다.')
-      window.location.replace('/main')
-    } else {
-      console.log('no');
-    }
-  }
-  const delete_btn = document.getElementById('delete_btn')
-  delete_btn.addEventListener('click', deletePost)
-
-  const grade = '{{date.grade}}'
-  console.log(grade);
-  // 별을 만들자
-  let star = ""
-  for (let i = 1; i <= grade; i++) {
-    star = star + "★"
-  }
-  // 별을 넣자
-  document.getElementById('grade').innerText = star
 
 
+        const deletePost = () => {
+            const result = confirm("이 꿀템을 정말 삭제 할까요?")
+            if (result) {
+                $.ajax({
+                    type: "POST",
+                    url: "/post_delete",
+                    data: {
+                        date: "{{date.date}}"
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        window.location.replace("/main")
+                    }
+                });
+                alert('삭제되었습니다.')
+                window.location.replace('/main')
+            } else {
+                console.log('no');
+            }
+        }
+        const delete_btn = document.getElementById('delete_btn')
+        delete_btn.addEventListener('click', deletePost)
 
-</script>
+
+        const grade = '{{date.grade}}'
+        console.log(grade);
+        // 별을 만들자
+        let star = ""
+        for (let i = 1; i <= grade; i++) {
+            star = star + "★"
+        }
+        // 별을 넣자
+        document.getElementById('grade').innerText = star
+
+
+    </script>
 {% endblock content %}
