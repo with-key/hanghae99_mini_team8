@@ -165,8 +165,8 @@ def posting():
             naver_lowprice = "https://search.shopping.naver.com/catalog"
 
             ##url 유효성 검사
-            if gmarket or naver or naver2 or naver_lowprice not in mdurl:
-                return jsonify({"msg": "fail"})
+            # if gmarket or naver or naver2 or naver_lowprice not in mdurl:
+            #     return jsonify({"msg": "fail"})
 
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"
@@ -276,17 +276,13 @@ def post_delete():
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/edit/<date>', methods=['GET', 'POST'])
+@app.route('/edit/<date>', methods=['GET'])
 def edit_detail(date):
     try:
         # 상세페이지에서 수정 버튼을 누르면 해당하는 DB를 리스트로 던져줌
         if request.method == 'GET':
             date = db.posts.find_one({"date": date})
-            return render_template("detail.html", date=date)
-        # 수정 완료결과를 post로 받아서
-        if request.method == 'POST':
-            return jsonify({"result": "POST success"})
-
+            return render_template("edit.html", date=date)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
