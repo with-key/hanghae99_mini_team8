@@ -212,5 +212,19 @@
       }
     })
   }
+   function post_before() {
+      $.ajax({
+          type: "GET",
+          url: "/post",
+          data: {},
+          success: function (response) {
+              let userID = response['userid']
+              console.log(userID)
+          }
+      })
+  }
+  $(document).ready(function () {
+      post_before();
+  })
 </script>
 {% endblock javascripts %}
