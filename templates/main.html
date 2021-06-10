@@ -33,7 +33,11 @@
                             <p class="product-desc text-truncate postname">{{post.postname}}</p>
                             <p class="product-price text-truncate">{{post.product_name}}</p>
                             <div class="card_bottom">
-                                <div class="product-score">{{post.grade}}</div>
+                                <div class="product-score">
+                                    {{"★" if post.grade == '1' else "★★" if post.grade == '2' else "★★" if post.grade ==
+                                    '2' else "★★★" if post.grade == '3' else "★★★★" if post.grade == '4' else "★★★★★" if
+                                    post.grade == '5' else "❤️" }}
+                                </div>
                                 <div class="createdAt">{{post.date}}</div>
                                 <div class="product-score">{{post.userid.username}}</div>
                             </div>
