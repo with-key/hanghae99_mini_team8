@@ -278,6 +278,10 @@ def posting():
 def post_detail(date):
     token_receive = request.cookies.get("mytoken")
     try:
+        db_detail = db.posts.find_one({"date":date})
+        if db_detail is None:
+            return redirect(url_for("main"))
+
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         date = db.posts.find_one({"date": date})
         print(date)
@@ -285,10 +289,13 @@ def post_detail(date):
         status = user_id == date["userid"]
 
         return render_template("detail.html", user_id=user_id, date=date)
+
+
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+                 # 클라에서 받은 url이 유효하지 않으면 메인으로 redirect
 
 
 @app.route("/post_delete", methods=["POST"])
