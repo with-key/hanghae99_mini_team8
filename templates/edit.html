@@ -112,23 +112,22 @@
 
         <div class="button-group mt-4 mb-5 text-center">
             <a href="/main" class="btn btn-lg btn-outline-secondary">목록</a>
-            <button type="button" onclick="clickFunct()" class="btn btn-lg btn-primary">꿀템등록</button>
+            <button type="button" onclick="clickEdit()" class="btn btn-lg btn-primary">꿀템등록</button>
         </div>
     </div>
 
 {% endblock content %}
 
 {% block javascripts %}
+    <script src="static/js/post.js"></script>
     <script>
-
         $(document).ready(function () {
-            check_radio();
+            check_grade();
+            check_cate();
         })
 
-        function check_radio() {
+        function check_grade() {
             const currentGrade = '{{date.grade}}'
-            const currentCate = '{{date.categories}}'
-
             if (currentGrade == $("#radio-score1").val()) {
                 $("input[id='radio-score1']").prop('checked', true);
             } else if (currentGrade == $("#radio-score2").val()) {
@@ -140,16 +139,18 @@
             } else if (currentGrade == $("#radio-score5").val()) {
                 $("input[id='radio-score5']").prop('checked', true);
             }
+        }
 
-            if (currentCate == $("#radio-score1").val()) {
+        function check_cate() {
+            const currentCate = '{{date.categories}}'
+            if (currentCate == $("#radio-category1").val()) {
                 $("input[id='radio-category1']").prop('checked', true);
-            } else if (currentGrade == $("#radio-score2").val()) {
+            } else if (currentCate == $("#radio-category2").val()) {
                 $("input[id='radio-category2']").prop('checked', true);
-            } else if (currentGrade == $("#radio-score3").val()) {
+            } else if (currentCate == $("#radio-category3").val()) {
                 $("input[id='radio-category3']").prop('checked', true);
             }
         }
-
 
     </script>
 {% endblock javascripts %}
