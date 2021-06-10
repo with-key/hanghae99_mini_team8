@@ -2,109 +2,108 @@
 
 {% block title %}{{ date.product_name }}{% endblock %}
 {% block content %}
-    <div class="container">
-        <!-- Button -->
-        <div class="button-group-product">
-            <div id="detail-btn-grp" class="button-item-update">
-                <button class="btns_btn">수정</button>
-                <button class="btns_btn" id="delete_btn">삭제</button>
-            </div>
-            <a href="/main">
-                <button class="btns_btn">목록</button>
-            </a>
+<div class="container">
+    <!-- Button -->
+    <div class="button-group-product">
+        <div id="detail-btn-grp" class="button-item-update">
+            <a href="/edit_detail/{{date.date}}"><button class="btns_btn">수정</button></a>
+            <button class="btns_btn" id="delete_btn">삭제</button>
         </div>
+        <a href="/main">
+            <button class="btns_btn">목록</button>
+        </a>
+    </div>
 
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-md-6">
-                <div class="img-group">
-                    <img src="{{ date.image }}" alt="image" class="product-img">
-                </div>
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-md-6">
+            <div class="img-group">
+                <img src="{{ date.image }}" alt="image" class="product-img">
             </div>
-            <div class="col-md-6">
-                <!-- 카테고리 -->
-                <div class="category">
-        <span class="badge badge-primary">
-          {{ "데스크꿀템" if date.categories == "desk_item"
-          else "식품/건강꿀템" if date.categories == "health_item"
-                  else "시간절약꿀템" if date.categories == "time_item"}}</span>
-                </div>
-                <!-- 상품명 -->
-                <h2 class="product-title">{{ date.product_name }}</h2>
-                <!-- 가격 -->
-                <div class="price">
-                    <p class="product-val">{{ date.price }}</p>
-                </div>
-                <!-- 작성자 -->
-                <div class="author">
-                    <p class="product-label">작성자</p>
-                    <p class="product-val">{{ date.userid.username }}</p>
-                </div>
-                <!-- 추천점수 -->
-                <div class="score">
-                    <p class="product-label">추천점수</p>
-                    <p class="product-val" id="grade">{{ date.grade }} 점</p>
-                </div>
-                <!-- 좋은 점 -->
-                <div class="product_recomm">
-                    <p class="product-label">좋은 점</p>
-                    <p class="product-val">{{ date.recommendation }}</p>
-                </div>
-                <!-- 나만의 꿀팁 -->
-                <div class="product_mytip">
-                    <p class="product-label">나만의 꿀팁</p>
-                    <p class="product-val">{{ date.honeytip }}</p>
-                </div>
-                <div class="product-btn-shortcut">
-                    <a class="btn btn-lg btn-primary w-100" href="{{ date.mdurl }}" target="_blank">상품 바로가기</a>
-                </div>
+        </div>
+        <div class="col-md-6">
+            <!-- 카테고리 -->
+            <div class="category">
+                <span class="badge badge-primary">
+                    {{ "데스크꿀템" if date.categories == "desk_item"
+                    else "식품/건강꿀템" if date.categories == "health_item"
+                    else "시간절약꿀템" if date.categories == "time_item"}}</span>
+            </div>
+            <!-- 상품명 -->
+            <h2 class="product-title">{{ date.product_name }}</h2>
+            <!-- 가격 -->
+            <div class="price">
+                <p class="product-val">{{ date.price }}</p>
+            </div>
+            <!-- 작성자 -->
+            <div class="author">
+                <p class="product-label">작성자</p>
+                <p class="product-val">{{ date.userid.username }}</p>
+            </div>
+            <!-- 추천점수 -->
+            <div class="score">
+                <p class="product-label">추천점수</p>
+                <p class="product-val" id="grade">{{ date.grade }} 점</p>
+            </div>
+            <!-- 좋은 점 -->
+            <div class="product_recomm">
+                <p class="product-label">좋은 점</p>
+                <p class="product-val">{{ date.recommendation }}</p>
+            </div>
+            <!-- 나만의 꿀팁 -->
+            <div class="product_mytip">
+                <p class="product-label">나만의 꿀팁</p>
+                <p class="product-val">{{ date.honeytip }}</p>
+            </div>
+            <div class="product-btn-shortcut">
+                <a class="btn btn-lg btn-primary w-100" href="{{ date.mdurl }}" target="_blank">상품 바로가기</a>
             </div>
         </div>
     </div>
+</div>
 
 {% endblock content %}
 
 {% block javascripts %}
-    <script>
-        const creatorId = '{{date.userid.userid}}'
-        const currentId = '{{user_id}}' // 접속자 아이디
+<script>
+    const creatorId = '{{date.userid.userid}}'
+    const currentId = '{{user_id}}' // 접속자 아이디
 
-        // console.log(creatorId, currentId);
+    // console.log(creatorId, currentId);
+    if (creatorId === currentId) {
+        document.getElementById('detail-btn-grp').style.display = "inline-block"
+    } else if (creatorId !== currentId) {
+        document.getElementById('detail-btn-grp').style.display = "none"
+    }
 
-        if (creatorId === currentId) {
-            document.getElementById('detail-btn-grp').style.display = "inline-block"
-        } else if (creatorId !== currentId) {
-            document.getElementById('detail-btn-grp').style.display = "none"
+
+    const deletePost = () => {
+        const result = confirm("이 꿀템을 정말 삭제 할까요?")
+        if (result) {
+            $.ajax({
+                type: "POST",
+                url: "/post_delete",
+                data: {
+                    date: "{{date.date}}"
+                },
+                success: function (res) {
+                    // console.log(res);
+                    window.location.replace("/main")
+                }
+            });
+            alert('삭제되었습니다.')
+            window.location.replace('/main')
         }
+    }
+    const delete_btn = document.getElementById('delete_btn')
+    delete_btn.addEventListener('click', deletePost)
 
-
-        const deletePost = () => {
-            const result = confirm("이 꿀템을 정말 삭제 할까요?")
-            if (result) {
-                $.ajax({
-                    type: "POST",
-                    url: "/post_delete",
-                    data: {
-                        date: "{{date.date}}"
-                    },
-                    success: function (res) {
-                        // console.log(res);
-                        window.location.replace("/main")
-                    }
-                });
-                alert('삭제되었습니다.')
-                window.location.replace('/main')
-            }
-        }
-        const delete_btn = document.getElementById('delete_btn')
-        delete_btn.addEventListener('click', deletePost)
-
-        const grade = '{{date.grade}}'
-        // 별을 만들자
-        let star = ""
-        for (let i = 1; i <= grade; i++) {
-            star = star + "★"
-        }
-        // 별을 넣자
-        document.getElementById('grade').innerText = star
-    </script>
+    const grade = '{{date.grade}}'
+    // 별을 만들자
+    let star = ""
+    for (let i = 1; i <= grade; i++) {
+        star = star + "★"
+    }
+    // 별을 넣자
+    document.getElementById('grade').innerText = star
+</script>
 {% endblock javascripts %}
