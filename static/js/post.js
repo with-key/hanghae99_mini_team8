@@ -1,6 +1,3 @@
-$(document).ready(function () {
-    post_before();
-})
 const currentId = '{{user_id}}' // 접속자 아이디
 
 console.log(currentId);

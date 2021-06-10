@@ -117,4 +117,10 @@
 
 {% block javascripts %}
     <script src="static/js/post.js"></script>
+    <script>
+        $(document).ready(function () {
+            post_before();
+        })
+    </script>
+
 {% endblock javascripts %}
