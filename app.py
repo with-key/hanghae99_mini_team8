@@ -42,7 +42,9 @@ def categories(categories):
         user_info = db.users.find_one({"userid": payload["id"]})
         posts = list(db.posts.find({"categories": categories}).sort("date", -1))
         ## date 값 유효성 인증 시 date 값 사용
-        return render_template("home.html", user_info=user_info, posts=posts)
+        return render_template(
+            "home.html", user_info=user_info, posts=posts, categories=categories
+        )
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page"))
@@ -122,18 +124,18 @@ def check_dup():
     return jsonify({"result": "success", "exists": exists})
 
 
-@app.route("/post", methods=["POST","GET"])
+@app.route("/post", methods=["POST", "GET"])
 def posting():
     token_receive = request.cookies.get("mytoken")
     if request.method == "GET":
 
-        #작성자 id노출
+        # 작성자 id노출
         try:
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
 
             user_id = payload["id"]
 
-            return jsonify({"userid":user_id})
+            return jsonify({"userid": user_id})
         except jwt.ExpiredSignatureError:
             return redirect(url_for("login"))
         except jwt.exceptions.DecodeError:
@@ -177,7 +179,9 @@ def posting():
             ##지마켓
             if gmarket in mdurl:
                 image = soup.select_one("meta[property='og:image']")["content"]
-                price = soup.select_one("#itemcase_basic > div > p > span > strong").text
+                price = soup.select_one(
+                    "#itemcase_basic > div > p > span > strong"
+                ).text
                 product_name = soup.select_one(
                     "#itemcase_basic > div.box__item-title > h1"
                 ).text
@@ -220,7 +224,6 @@ def posting():
                 product_name = soup.select_one(
                     "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.top_summary_title__15yAr > h2"
                 ).text
-
 
             print(product_name, postname)
 

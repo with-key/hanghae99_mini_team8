@@ -17,10 +17,10 @@
 </div>
 <div class="container">
     <div class="filter-group">
-        <a class="btn btn-lg btn-filter active" href="/main">추천 꿀템</a>
-        <a class="btn btn-lg btn-filter" href="/desk_item">데스크 꿀템</a>
-        <a class="btn btn-lg btn-filter" href="/time_item">시간절약 꿀템</a>
-        <a class="btn btn-lg btn-filter" href="/health_item">식품/건강 꿀템</a>
+        <a class="btn btn-lg btn-filter" href="/main" id="main">추천 꿀템</a>
+        <a class="btn btn-lg btn-filter" href="/desk_item" id="desk_item">데스크 꿀템</a>
+        <a class="btn btn-lg btn-filter" href="/time_item" id="time_item">시간절약 꿀템</a>
+        <a class="btn btn-lg btn-filter" href="/health_item" id="health_item">식품/건강 꿀템</a>
     </div>
     <div class="card-list">
         <div class="row">
@@ -43,6 +43,20 @@
             {% endfor %}
         </div>
     </div>
-    <!-- {% include '_pagination.html' %} -->
+    <script>
+        // 필터 active effect
+        if ('{{categories}}' === "") {
+            document.getElementById('main').classList.add('active')
+        }
+        if ('{{categories}}' === "desk_item") {
+            document.getElementById('desk_item').classList.add('active')
+        }
+        if ('{{categories}}' === "time_item") {
+            document.getElementById('time_item').classList.add('active')
+        }
+        if ('{{categories}}' === "health_item") {
+            document.getElementById('health_item').classList.add('active')
+        }
+    </script>
 </div>
 {% endblock %}
