@@ -122,105 +122,120 @@ def check_dup():
     return jsonify({"result": "success", "exists": exists})
 
 
-@app.route("/post", methods=["POST"])
+@app.route("/post", methods=["POST","GET"])
 def posting():
-
     token_receive = request.cookies.get("mytoken")
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+    if request.method == "GET":
+
+        #작성자 id노출
+        try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
+
+            user_id = payload["id"]
+
+            return jsonify({"userid":user_id})
+        except jwt.ExpiredSignatureError:
+            return redirect(url_for("login"))
+        except jwt.exceptions.DecodeError:
+            return redirect(url_for("login"))
+
+    elif request.method == "POST":
         # 포스팅하기
-        user_info = db.users.find_one({"username": payload["id"]})
+        try:
+            payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
 
-        userid = db.users.find_one({"userid": payload["id"]})
+            user_info = db.users.find_one({"username": payload["id"]})
 
-        # 웹에서 오는것
-        postname = request.form["postname"]
-        categories = request.form["categories"]
-        mdurl = request.form["mdurl"]
-        grade = request.form["grade"]
-        recommendation = request.form["recommendation"]
-        honeytip = request.form["honeytip"]
-        date = request.form["date"]
-        image = ""
-        price = ""
-        product_name = ""
-        # 스크래핑 하는것
+            userid = db.users.find_one({"userid": payload["id"]})
 
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"
-        }
-        data = requests.get(mdurl, headers=headers)
-        soup = BeautifulSoup(data.text, "html.parser")
-        ##지마켓
-        if "http://item.gmarket.co.kr/" in mdurl:
-            image = soup.select_one("meta[property='og:image']")["content"]
-            price = soup.select_one("#itemcase_basic > div > p > span > strong").text
-            product_name = soup.select_one(
-                "#itemcase_basic > div.box__item-title > h1"
-            ).text
-        ##네이벼 쇼핑
-        elif "https://shopping.naver.com/" in mdurl:
-            image = soup.select_one("meta[property='og:image']")["content"]
-            price = soup.select_one(
-                "#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > "
-                "div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR"
-            ).text
-            price = price + "원"
-            product_name = soup.select_one(
-                "#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3"
-            )
-            if product_name is None:
+            # 웹에서 오는것
+            postname = request.form["postname"]
+            categories = request.form["categories"]
+            mdurl = request.form["mdurl"]
+            grade = request.form["grade"]
+            recommendation = request.form["recommendation"]
+            honeytip = request.form["honeytip"]
+            date = request.form["date"]
+            image = ""
+            price = ""
+            product_name = ""
+            # 스크래핑 하는것
+
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"
+            }
+            data = requests.get(mdurl, headers=headers)
+            soup = BeautifulSoup(data.text, "html.parser")
+            ##지마켓
+            if "http://item.gmarket.co.kr/" in mdurl:
+                image = soup.select_one("meta[property='og:image']")["content"]
+                price = soup.select_one("#itemcase_basic > div > p > span > strong").text
                 product_name = soup.select_one(
-                    "#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3"
+                    "#itemcase_basic > div.box__item-title > h1"
+                ).text
+            ##네이벼 쇼핑
+            elif "https://shopping.naver.com/" in mdurl:
+                image = soup.select_one("meta[property='og:image']")["content"]
+                price = soup.select_one(
+                    "#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > "
+                    "div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR"
+                ).text
+                price = price + "원"
+                product_name = soup.select_one(
+                    "#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3"
                 )
-                ##네이버 플레이 윈도
-            product_name = product_name.text
+                if product_name is None:
+                    product_name = soup.select_one(
+                        "#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3"
+                    )
+                    ##네이버 플레이 윈도
+                product_name = product_name.text
 
-        elif "https://smartstore.naver.com/" in mdurl:
-            image = soup.select_one("meta[property='og:image']")["content"]
-            price = soup.select_one(
-                "#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR"
-            ).text
-            price = price + "원"
-            product_name = soup.select_one(
-                "#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3"
-            ).text
-        ##네이버 최저가 비교 상품일 때
-        elif "https://search.shopping.naver.com/catalog" in mdurl:
-            image = soup.select_one(
-                "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.style_content_wrap__2VTVx > div.style_content__36DCX > div > div.image_thumb_area__1dzNx > div > div > img"
-            )["src"]
-            price = soup.select_one(
-                "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.style_content_wrap__2VTVx > div.style_content__36DCX > div > div.summary_info_area__3XT5U > div.lowestPrice_price_area__OkxBK > div.lowestPrice_low_price__fByaG > em"
-            ).text
-            price = price + "원"
-            product_name = soup.select_one(
-                "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.top_summary_title__15yAr > h2"
-            ).text
+            elif "https://smartstore.naver.com/" in mdurl:
+                image = soup.select_one("meta[property='og:image']")["content"]
+                price = soup.select_one(
+                    "#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR"
+                ).text
+                price = price + "원"
+                product_name = soup.select_one(
+                    "#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3"
+                ).text
+            ##네이버 최저가 비교 상품일 때
+            elif "https://search.shopping.naver.com/catalog" in mdurl:
+                image = soup.select_one(
+                    "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.style_content_wrap__2VTVx > div.style_content__36DCX > div > div.image_thumb_area__1dzNx > div > div > img"
+                )["src"]
+                price = soup.select_one(
+                    "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.style_content_wrap__2VTVx > div.style_content__36DCX > div > div.summary_info_area__3XT5U > div.lowestPrice_price_area__OkxBK > div.lowestPrice_low_price__fByaG > em"
+                ).text
+                price = price + "원"
+                product_name = soup.select_one(
+                    "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.top_summary_title__15yAr > h2"
+                ).text
 
-            print(product_name, postname)
-        doc = {
-            "userid": userid,
-            "postname": postname,
-            "product_name": product_name,
-            "categories": categories,
-            "mdurl": mdurl,
-            "grade": grade,
-            "recommendation": recommendation,
-            "honeytip": honeytip,
-            "image": image,
-            "price": price,
-            "post_id": "",
-            "date": date,
-        }
+                print(product_name, postname)
+            doc = {
+                "userid": userid,
+                "postname": postname,
+                "product_name": product_name,
+                "categories": categories,
+                "mdurl": mdurl,
+                "grade": grade,
+                "recommendation": recommendation,
+                "honeytip": honeytip,
+                "image": image,
+                "price": price,
+                "post_id": "",
+                "date": date,
+            }
 
-        db.posts.insert_one(doc)
-        return jsonify({"msg": "success"})
+            db.posts.insert_one(doc)
+            return jsonify({"msg": "success"})
 
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login"))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("login"))
+        except jwt.ExpiredSignatureError:
+            return redirect(url_for("login"))
+        except jwt.exceptions.DecodeError:
+            return redirect(url_for("login"))
 
 
 @app.route("/post/<date>")
