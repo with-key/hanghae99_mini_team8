@@ -343,7 +343,7 @@ def edit_detaill():
         honeytip = request.form['honeytip_give']
         date = request.form['date_give']
 
-        db.posts.update_one({'date':date}, {"$set": {'postname': postname}})
+        db.posts.update_one({'date': date}, {"$set": {'postname': postname}})
         db.posts.update_one({'date': date}, {"$set": {'categories': categories}})
         db.posts.update_one({'date': date}, {"$set": {'grade': grade}})
         db.posts.update_one({'date': date}, {"$set": {'recommendation': recommendation}})
@@ -388,7 +388,6 @@ def update_like():
         like_info = {"count": like_count, "action": action_receive, "date": date_receive}
 
         return jsonify({"result": "success", 'msg': 'updated', "user_info": user_info, "like_info": like_info})
-
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
