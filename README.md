@@ -1,2 +1,1 @@
-# hanghae99_mini_team8
-# 이슈 테스트
+# Honey Share (Team 8) http://honeyshare.shop/
