@@ -33,7 +33,12 @@
                             <p class="product-desc text-truncate postname">{{post.postname}}</p>
                             <p class="product-price text-truncate">{{post.product_name}}</p>
                             <div class="card_bottom">
-                                <div class="product-score">{{post.grade}}</div>
+                                <div class="product-score">
+                                    {{"★" if post.grade == '1' else "★★" if post.grade == '2' else "★★" if post.grade ==
+                                    '2' else "★★★" if post.grade == '3' else "★★★★" if post.grade == '4' else "★★★★★" if
+                                    post.grade == '5' else "❤️" }}
+                                    <script>console.log("{{post.grade}}");</script>
+                                </div>
                                 <div class="createdAt">{{post.date}}</div>
                                 <div class="product-score">{{post.userid.username}}</div>
                             </div>
@@ -46,8 +51,6 @@
     </div>
     <script>
         console.log("%c첫 미니프로젝트! 8조 여러분 고생하셨습니다! [진효빈 예상기 최완호 하연후]", "background-image: linear-gradient(#f50000, #f50000); color: white; padding: 5px;");
-
-
         // 필터 active effect
         if ('{{categories}}' === "") {
             document.getElementById('main').classList.add('active')
