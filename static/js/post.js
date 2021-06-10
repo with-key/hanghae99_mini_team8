@@ -92,9 +92,7 @@ function registerValdation() {
 
 // 포스트
 function post() {
-    if (username == undefined) {
-        username = ""
-    }
+
     let postname_val = $("#input-postname").val()                        // 글제목
     let userid_val = $("#input-userid").val()                            // 작성자
     let categories_val = $("input[name='radio-category']:checked").val() // 카테고리
