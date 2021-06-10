@@ -123,13 +123,13 @@
     let recommendationSelct = $("#input-recommendation")
     let honeytipSelct = $("#input-honeytip")
 
-    let postname_val = postnameSelct.val()        // 글제목
-    let userid_val = useridSelct.val()          // 작성자
-    let categories_val = categoriesSelct.val()      // 카테고리
-    let mdurl_val = mdurlSelct.val()           // URL
-    let grade_val = gradeSelct.val()           // 평점
-    let recommendation_val = recommendationSelct.val()  // 좋았던 점
-    let honeytip_val = honeytipSelct.val()        // 꿀팁     
+    let postname_val = postnameSelct.val()               // 글제목
+    let userid_val = useridSelct.val()                   // 작성자
+    let categories_val = categoriesSelct.val()           // 카테고리
+    let mdurl_val = mdurlSelct.val()                     // URL
+    let grade_val = gradeSelct.val()                     // 평점
+    let recommendation_val = recommendationSelct.val()   // 좋았던 점
+    let honeytip_val = honeytipSelct.val()               // 꿀팁     
 
     // == 1. postname
     if (postname_val == "") {
@@ -186,13 +186,13 @@
 
   // 포스트
   function post() {
-    let postname_val = $("#input-postname").val()                      // 글제목
-    let userid_val = $("#input-userid").val()                        // 작성자
+    let postname_val = $("#input-postname").val()                        // 글제목
+    let userid_val = $("#input-userid").val()                            // 작성자
     let categories_val = $("input[name='radio-category']:checked").val() // 카테고리
-    let mdurl_val = $("#input-url").val()                           // URL
-    let grade_val = $("input[name='radio-score']:checked").val()    // 평점
-    let recommendation_val = $("#input-recommendation").val()                // 좋았던 점
-    let honeytip_val = $("#input-honeytip").val()                      // 꿀팁
+    let mdurl_val = $("#input-url").val()                                // URL
+    let grade_val = $("input[name='radio-score']:checked").val()         // 평점
+    let recommendation_val = $("#input-recommendation").val()            // 좋았던 점
+    let honeytip_val = $("#input-honeytip").val()                        // 꿀팁
     let today = new Date()
 
     $.ajax({
