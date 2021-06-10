@@ -16,6 +16,8 @@ Font
   margin-top: 60px;
   margin-bottom: 30px;
 }
+#help-id-login,
+#help-password-login,
 .validation-message {
   color: #d2302c;
   font-size: 14px;
