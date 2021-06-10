@@ -325,8 +325,30 @@ def post_delete():
 def edit_detail(date):
     try:
         date = db.posts.find_one({"date": date})
-        print(date)
         return render_template("edit.html", date=date)
+
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
+
+@app.route('/edit_detaill', methods=['POST'])
+def edit_detaill():
+    try:
+        postname = request.form['postname_give']
+        categories = request.form['categories_give']
+        grade = request.form['grade_give']
+        recommendation = request.form['recommendation_give']
+        honeytip = request.form['honeytip_give']
+        date = request.form['date_give']
+
+        db.posts.update_one({'date':date}, {"$set": {'postname': postname}})
+        db.posts.update_one({'date': date}, {"$set": {'categories': categories}})
+        db.posts.update_one({'date': date}, {"$set": {'grade': grade}})
+        db.posts.update_one({'date': date}, {"$set": {'recommendation': recommendation}})
+        db.posts.update_one({'date': date}, {"$set": {'honeytip': honeytip}})
+        return jsonify({"result": date})
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
