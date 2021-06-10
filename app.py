@@ -166,10 +166,12 @@ def posting():
             naver = "https://shopping.naver.com/"
             naver2 = "https://smartstore.naver.com/"
             naver_lowprice = "https://search.shopping.naver.com/catalog"
-
             ##url 유효성 검사
-            if gmarket or naver or naver2 or naver_lowprice not in mdurl:
-                return jsonify({"msg": "fail"})
+            if gmarket not in mdurl:
+                if naver not in mdurl:
+                    if naver2 not in mdurl:
+                        if naver_lowprice not in mdurl:
+                            return jsonify({"msg": "fail"})
 
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"
