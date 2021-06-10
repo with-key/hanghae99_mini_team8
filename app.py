@@ -166,6 +166,12 @@ def posting():
             naver = "https://shopping.naver.com/"
             naver2 = "https://smartstore.naver.com/"
             naver_lowprice = "https://search.shopping.naver.com/catalog"
+            # 좋았던점, 꿀팁 유효성 검사 
+            if recommendation is "":
+                return
+            if honeytip is "":
+                return
+
             ##url 유효성 검사
             if gmarket not in mdurl:
                 if naver not in mdurl:
