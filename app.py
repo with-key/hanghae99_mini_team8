@@ -98,7 +98,7 @@ def register_page():
 def signup():
     # 회원가입
     id_receive = request.form["id"]
-    id_db = db.users.find_one({"userid":id_receive})
+    id_db = db.users.find_one({"userid": id_receive})
     if id_db is None:
 
         pw_receive = request.form["pw"]
@@ -296,7 +296,6 @@ def post_detail(date):
 
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
         date = db.posts.find_one({"date": date})
-        print(date)
         user_id = payload["id"]
         status = user_id == date["userid"]
 
@@ -322,39 +321,38 @@ def post_delete():
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 
-@app.route('/edit/<date>', methods=['GET'])
+@app.route('/edit_detail/<date>')
 def edit_detail(date):
     try:
-        # 상세페이지에서 수정 버튼을 누르면 해당하는 DB를 리스트로 던져줌
-        if request.method == 'GET':
-            date = db.posts.find_one({"date": date})
-            return render_template("edit.html", date=date)
+        date = db.posts.find_one({"date": date})
+        print(date)
+        return render_template("edit.html", date=date)
+
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
-    
+
 @app.route('/update_like', methods=['POST'])
 def update_like():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-
         user_info = db.users.find_one({"username": payload["id"]})
 
         date_receive = request.form["post_date"]
-    ##액션은 사용자가 해당 게시물에 좋아요를 했는지 여부
+        ##액션은 사용자가 해당 게시물에 좋아요를 했는지 여부
         action_receive = request.form["action_give"]
 
-        post_info = db.posts.find_one({"date":date_receive},{"_id":False})
+        post_info = db.posts.find_one({"date": date_receive}, {"_id": False})
         post_like = post_info["like"]
 
         ##액션은 like , unlike로 줌
         if action_receive == "like":
             post_like += 1
-            db.posts.update_one({'date':date_receive},{'$set':{'like':post_like}})
+            db.posts.update_one({'date': date_receive}, {'$set': {'like': post_like}})
             db.posts.update_one({'userid': user_info}, {'$set': {'action': "like"}})
 
 
@@ -365,9 +363,9 @@ def update_like():
 
         like_count = db.posts.find_one({"date": date_receive})["like"]
 
-        like_info = {"count":like_count, "action":action_receive, "date":date_receive}
+        like_info = {"count": like_count, "action": action_receive, "date": date_receive}
 
-        return jsonify({"result": "success", 'msg': 'updated', "user_info":user_info, "like_info":like_info})
+        return jsonify({"result": "success", 'msg': 'updated', "user_info": user_info, "like_info": like_info})
 
 
     except jwt.ExpiredSignatureError:
@@ -375,6 +373,7 @@ def update_like():
 
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
