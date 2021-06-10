@@ -160,6 +160,14 @@ def posting():
             price = ""
             product_name = ""
             # 스크래핑 하는것
+            gmarket = "http://item.gmarket.co.kr/"
+            naver = "https://shopping.naver.com/"
+            naver2 = "https://smartstore.naver.com/"
+            naver_lowprice = "https://search.shopping.naver.com/catalog"
+
+            ##url 유효성 검사
+            if gmarket or naver or naver2 or naver_lowprice not in mdurl:
+                return jsonify({"msg": "fail"})
 
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"
@@ -167,14 +175,14 @@ def posting():
             data = requests.get(mdurl, headers=headers)
             soup = BeautifulSoup(data.text, "html.parser")
             ##지마켓
-            if "http://item.gmarket.co.kr/" in mdurl:
+            if gmarket in mdurl:
                 image = soup.select_one("meta[property='og:image']")["content"]
                 price = soup.select_one("#itemcase_basic > div > p > span > strong").text
                 product_name = soup.select_one(
                     "#itemcase_basic > div.box__item-title > h1"
                 ).text
             ##네이벼 쇼핑
-            elif "https://shopping.naver.com/" in mdurl:
+            elif naver in mdurl:
                 image = soup.select_one("meta[property='og:image']")["content"]
                 price = soup.select_one(
                     "#content > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > "
@@ -191,7 +199,7 @@ def posting():
                     ##네이버 플레이 윈도
                 product_name = product_name.text
 
-            elif "https://smartstore.naver.com/" in mdurl:
+            elif naver2 in mdurl:
                 image = soup.select_one("meta[property='og:image']")["content"]
                 price = soup.select_one(
                     "#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.WrkQhIlUY0 > div > strong > span._1LY7DqCnwR"
@@ -201,7 +209,7 @@ def posting():
                     "#content > div > div._2-I30XS1lA > div._2QCa6wHHPy > fieldset > div._1ziwSSdAv8 > div.CxNYUPvHfB > h3"
                 ).text
             ##네이버 최저가 비교 상품일 때
-            elif "https://search.shopping.naver.com/catalog" in mdurl:
+            elif naver_lowprice in mdurl:
                 image = soup.select_one(
                     "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.style_content_wrap__2VTVx > div.style_content__36DCX > div > div.image_thumb_area__1dzNx > div > div > img"
                 )["src"]
@@ -213,7 +221,9 @@ def posting():
                     "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.top_summary_title__15yAr > h2"
                 ).text
 
-                print(product_name, postname)
+
+            print(product_name, postname)
+
             doc = {
                 "userid": userid,
                 "postname": postname,
