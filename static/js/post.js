@@ -1,18 +1,4 @@
-const currentId = '{{user_id}}' // 접속자 아이디
 
-console.log(currentId);
-
-function post_before() {
-    $.ajax({
-        type: "GET",
-        url: "/post",
-        data: {},
-        success: function (response) {
-            let userID = response['userid']
-            console.log(userID)
-        }
-    })
-}
 
 function clickFunct() {
     registerValdation()
