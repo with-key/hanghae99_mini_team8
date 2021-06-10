@@ -5,7 +5,7 @@
 <div class="container">
   <!-- Button -->
   <div class="button-group-product">
-    <div id="detail-btn-grp">
+    <div id="detail-btn-grp" class="button-item-update">
       <button class="btns_btn">수정</button>
       <button class="btns_btn" id="delete_btn">삭제</button>
     </div>
@@ -52,7 +52,9 @@
         <p class="product-label">나만의 꿀팁</p>
         <p class="product-val">{{date.honeytip}}</p>
       </div>
-      <a class="btn btn-lg btn-primary w-100" href="{{date.mdurl}}" target="_blank">상품 바로가기</a>
+      <div class="product-btn-shortcut">
+        <a class="btn btn-lg btn-primary w-100" href="{{date.mdurl}}" target="_blank">상품 바로가기</a>
+      </div>
     </div>
   </div>
 </div>
@@ -67,7 +69,7 @@
   // console.log(creatorId, currentId);
 
   if (creatorId === currentId) {
-    document.getElementById('detail-btn-grp').style.display = "block"
+    document.getElementById('detail-btn-grp').style.display = "inline-block"
   } else if (creatorId !== currentId) {
     document.getElementById('detail-btn-grp').style.display = "none"
   }

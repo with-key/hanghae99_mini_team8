@@ -8,11 +8,12 @@
   margin-bottom: 15px;
 }
 .product-label {
+  color: #777;
   font-weight: 500;
-  margin-bottom: 0;
+  margin-bottom: 5px;
 }
 .product-val {
-  font-size: 30px;
+  font-size: 20px;
   margin-bottom: 20px;
 }
 .price .product-val {
@@ -41,9 +42,15 @@
   margin-bottom: 30px;
   text-align: right;
 }
-
-
-
+.product-btn-shortcut {
+  border-top: 1px solid #e3e3e3;
+  padding-bottom: 80px;
+  padding-top: 30px;
+}
+.score .product-val {
+  color: #d80a0a;
+  font-size: 30px;
+}
 
 /* header */
 .container_header {
