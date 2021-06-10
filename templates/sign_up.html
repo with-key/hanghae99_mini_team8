@@ -3,32 +3,41 @@
 {% block title %}회원가입{% endblock %}
 
 {% block content %}
-<section class="section">
+<section class="account-section">
+    <img src="../static/images/logo.png" alt="" class="logo-account">
     <div class="wrapper wrapper_sign_up ">
-        <h1 class="title">환영합니다 👋</h1>
-        <div class="sign_up_row">
-            <label for="id" class="sign_up_label ">아이디</label>
-            <input type="text" name="id" class="sign_up_input" id="userid" onkeyup="submitValid()">
-            <div class="help_msg"></div>
-            <button class="sign_up_valid_id" id="valid_btn" onclick="validUserId()">중복확인</button>
+        <!-- <h1 class="title">환영합니다 👋</h1> -->
+        
+        <div class="form-group row double-check">
+            <label for="id" class="col-sm-3 col-form-label">아이디</label>
+            <div class="col-sm-9">
+                <input type="text" name="id" class="form-control" id="userid" onkeyup="submitValid()">
+                <div class="help_msg"></div>
+                <button class="btn btn-primary" id="valid_btn" onclick="validUserId()">중복확인</button>
+            </div>
         </div>
-        <div class="sign_up_row">
-            <label for="name" class="sign_up_label">이름</label>
-            <input type="text" name="name" class="sign_up_input" id="username">
+        <div class="form-group row">
+            <label for="name" class="col-sm-3 col-form-label">이름</label>
+            <div class="col-sm-9">
+                <input type="text" name="name" class="form-control" id="username">
+            </div>
         </div>
-        <br />
-        <div class="sign_up_row">
-            <label for=" password" class="sign_up_label">비밀번호</label>
-            <input type="password" name="password" class="sign_up_input" id="userpw">
+        <div class="form-group row">
+            <label for=" password" class="col-sm-3 col-form-label">비밀번호</label>
+            <div class="col-sm-9">
+                <input type="password" name="password" class="form-control" id="userpw">
+            </div>
         </div>
-        <div class="sign_up_row">
-            <label for=" password" class="sign_up_label">비밀번호 확인</label>
-            <input type="password" name="password" class="sign_up_input" id="userRePw" onkeyup="validPw()">
+        <div class="form-group row">
+            <label for=" password" class="col-sm-3 col-form-label">비밀번호 확인</label>
+            <div class="col-sm-9">
+                <input type="password" name="password" class="form-control" id="userRePw" onkeyup="validPw()">
+            </div>
         </div>
         <div id="help_msg"></div>
         <div class="sign_up_btn_set">
-            <a href="/main" class="sign_up_btn_default">이전</a>
-            <button class="sign_up_btn" onclick="getSignup()" id="submit_btn" disabled>완료</button>
+            <a href="/main" class="btn btn-lg btn-outline-secondary">이전</a>
+            <button class="btn btn-lg btn-primary" onclick="getSignup()" id="submit_btn" disabled>완료</button>
         </div>
     </div>
 </section>

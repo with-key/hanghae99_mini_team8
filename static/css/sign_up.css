@@ -13,13 +13,18 @@
   bottom: 0;
   width: 100%;
 }
-.section {
+.account-section {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   padding-top: 20px;
+  margin: 0 auto 40px;
+}
+.account-section .logo-account {
+  margin: 0 auto 40px;
 }
 .sign_up_row {
-  padding-left: 20px;
+  /* padding-left: 20px; */
   gap: 10px;
   display: flex;
   align-items: center;
@@ -35,22 +40,25 @@
   font-size: 14px;
 }
 
-.wrapper_sign_up {
-  padding: 1.6rem;
-  width: 550px;
-  height: 550px;
+.account-content  .wrapper_sign_up {
+  padding: 40px;
+  /* width: 100%; */
+  /* height: 550px; */
   border-radius: 8px;
   position: relative;
+}
+.wrapper_sign_up > div:first-of-type {
+  margin-top: 0;
 }
 .title {
   text-align: center;
   margin-bottom: 50px !important;
 }
 
-.form {
+/* .form {
   width: 400px;
   margin: 0 auto;
-}
+} */
 .sign_up_label {
   display: block;
   width: 90px;
@@ -75,7 +83,7 @@
 }
 
 .sign_up_btn_set {
-  margin-top: 80px;
+  margin-top: 40px;
   display: flex;
   gap: 20px;
   justify-content: center;
@@ -116,4 +124,14 @@
   right: -125px;
   bottom: 170px;
   width: 250px;
+}
+
+
+.double-check .col-sm-9 {
+  position: relative;
+}
+.double-check  button {
+  position: absolute;
+  top: 0;
+  right: 15px;
 }
