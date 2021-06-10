@@ -42,7 +42,9 @@ def categories(categories):
         user_info = db.users.find_one({"userid": payload["id"]})
         posts = list(db.posts.find({"categories": categories}).sort("date", -1))
         ## date 값 유효성 인증 시 date 값 사용
-        return render_template("home.html", user_info=user_info, posts=posts)
+        return render_template(
+            "home.html", user_info=user_info, posts=posts, categories=categories
+        )
 
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page"))
@@ -163,10 +165,20 @@ def posting():
             naver = "https://shopping.naver.com/"
             naver2 = "https://smartstore.naver.com/"
             naver_lowprice = "https://search.shopping.naver.com/catalog"
+            # 좋았던점, 꿀팁 유효성 검사 
+            if recommendation is "":
+                return
+            if honeytip is "":
+                return
 
             ##url 유효성 검사
-            # if gmarket or naver or naver2 or naver_lowprice not in mdurl:
-            #     return jsonify({"msg": "fail"})
+
+            if gmarket not in mdurl:
+                if naver not in mdurl:
+                    if naver2 not in mdurl:
+                        if naver_lowprice not in mdurl:
+                            return jsonify({"msg": "fail"})
+
 
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"
@@ -176,7 +188,9 @@ def posting():
             ##지마켓
             if gmarket in mdurl:
                 image = soup.select_one("meta[property='og:image']")["content"]
-                price = soup.select_one("#itemcase_basic > div > p > span > strong").text
+                price = soup.select_one(
+                    "#itemcase_basic > div > p > span > strong"
+                ).text
                 product_name = soup.select_one(
                     "#itemcase_basic > div.box__item-title > h1"
                 ).text
