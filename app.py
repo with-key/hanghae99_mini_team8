@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-client = MongoClient("54.180.31.166", 27017, username="test", password="test")
+client = MongoClient("mongodb://13.125.39.31", 27017, username="test", password="test")
 # client = MongoClient('localhost', 27017)
 db = client.first_mini_project
 
@@ -62,7 +62,6 @@ def signup_page():
 
 @app.route("/register")
 def register_page():
-
     return render_template("register.html")
     # return redirect(url_for("login_page"))
 
@@ -122,18 +121,18 @@ def check_dup():
     return jsonify({"result": "success", "exists": exists})
 
 
-@app.route("/post", methods=["POST","GET"])
+@app.route("/post", methods=["POST", "GET"])
 def posting():
     token_receive = request.cookies.get("mytoken")
     if request.method == "GET":
 
-        #작성자 id노출
+        # 작성자 id노출
         try:
             payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
 
             user_id = payload["id"]
 
-            return jsonify({"userid":user_id})
+            return jsonify({"userid": user_id})
         except jwt.ExpiredSignatureError:
             return redirect(url_for("login"))
         except jwt.exceptions.DecodeError:
@@ -221,7 +220,6 @@ def posting():
                     "#__next > div > div.style_container__3iYev > div.style_inner__1Eo2z > div.top_summary_title__15yAr > h2"
                 ).text
 
-
             print(product_name, postname)
 
             doc = {
@@ -272,6 +270,23 @@ def post_delete():
         # 게시글 delete 버튼을 본인만 누를 수 있음 (bon in ah nim button an Dum)
         db.posts.delete_one({"date": date})
         return jsonify({"result": "success"})
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
+
+
+@app.route('/edit/<date>', methods=['GET', 'POST'])
+def edit_detail(date):
+    try:
+        # 상세페이지에서 수정 버튼을 누르면 해당하는 DB를 리스트로 던져줌
+        if request.method == 'GET':
+            date = db.posts.find_one({"date": date})
+            return render_template("detail.html", date=date)
+        # 수정 완료결과를 post로 받아서
+        if request.method == 'POST':
+            return jsonify({"result": "POST success"})
+
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
