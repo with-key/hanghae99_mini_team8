@@ -89,7 +89,6 @@ def register_page():
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
 
 
-
 #############################
 ###        API            ###
 #############################
@@ -201,7 +200,6 @@ def posting():
                         if naver_lowprice not in mdurl:
                             return jsonify({"msg": "fail"})
 
-
             headers = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36"
             }
@@ -286,7 +284,7 @@ def posting():
 def post_detail(date):
     token_receive = request.cookies.get("mytoken")
     try:
-        db_detail = db.posts.find_one({"date":date})
+        db_detail = db.posts.find_one({"date": date})
         if db_detail is None:
             return redirect(url_for("main"))
 
@@ -298,12 +296,11 @@ def post_detail(date):
 
         return render_template("detail.html", user_id=user_id, date=date)
 
-
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login_page", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login_page", msg="로그인 정보가 존재하지 않습니다."))
-                 # 클라에서 받은 url이 유효하지 않으면 메인으로 redirect
+        # 클라에서 받은 url이 유효하지 않으면 메인으로 redirect
 
 
 @app.route("/post_delete", methods=["POST"])
