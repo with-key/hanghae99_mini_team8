@@ -3,9 +3,10 @@
 {% block title %}로그인{% endblock %}
 
 {% block content %}
-<section class="section">
+<section class="account-section">
+    <img src="../static/images/logo.png" alt="" class="logo-account">
     <div class="wrapper">
-        <h1 class="title">안녕하세요? 허니쉐어 입니다 👋</h1>
+        <!-- <h1 class="title">안녕하세요? 허니쉐어 입니다 👋</h1> -->
         <form class="form">
             <div class="form-group row">
                 <label for="input-username" class="col-sm-3 col-form-label">아이디</label>
@@ -21,10 +22,10 @@
                     <p id="help-password-login" class="help text-danger"></p>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group">
                 <button type="button" onclick="sign_in()" class="btn btn-primary d-block w-100">로그인</button>
             </div>
-            <div class="form-group row">
+            <div class="form-group">
                 <a href="/signup_page" class="link_signup d-block w-100">아직 회원이 아니신가요?</a>
             </div>
         </form>
