@@ -32,9 +32,9 @@
             <label for=" password" class="col-sm-3 col-form-label">비밀번호 확인</label>
             <div class="col-sm-9">
                 <input type="password" name="password" class="form-control" id="userRePw" onkeyup="validPw()">
+                <div id="help_msg" class="validation-message"></div>
             </div>
         </div>
-        <div id="help_msg"></div>
         <div class="sign_up_btn_set">
             <a href="/main" class="btn btn-lg btn-outline-secondary">이전</a>
             <button class="btn btn-lg btn-primary" onclick="getSignup()" id="submit_btn" disabled>완료</button>
@@ -100,7 +100,6 @@
         }
         if (pw === rePw) {
             msg.innerText = "비밀번호가 일치합니다 👍"
-            msg.style.color = "green"
             submitBtn.disabled = false
             submitBtn.style.backgroundColor = "#D2302C"
         }

@@ -118,13 +118,13 @@
   border: none;
 }
 
-#help_msg {
+/* #help_msg {
   text-align: left;
   position: absolute;
   right: -125px;
   bottom: 170px;
   width: 250px;
-}
+} */
 
 
 .double-check .col-sm-9 {

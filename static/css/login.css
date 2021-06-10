@@ -84,12 +84,13 @@
   justify-content: center;
   /* background-color: #fff6cf; */
   background-color: #fae8bb;
-  background-image: url(../images/m-mahdi-kordi-n3-5IqyikRA-unsplash.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
-
+.account-content label {
+  white-space: nowrap;
+}
 
 @media (min-width: 992px){
   .account-content .wrapper {
