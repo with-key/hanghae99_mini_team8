@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-client = MongoClient("mongodb://13.125.39.31", 27017, username="test", password="test")
+client = MongoClient("mongodb://54.180.31.166", 27017, username="test", password="test")
 # client = MongoClient('localhost', 27017)
 db = client.first_mini_project
 
