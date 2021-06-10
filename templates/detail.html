@@ -8,7 +8,7 @@
     <div class="row" style="gap: 5px">
       <div id="detail-btn-grp">
         <button class="btns_btn">수정</button>
-        <button class="btns_btn">삭제</button>
+        <button class="btns_btn" id="delete_btn">삭제</button>
       </div>
       <a href="/main"><button class="btns_btn">목록</button></a>
     </div>
@@ -56,6 +56,33 @@
   } else if (creatorId !== currentId) {
     document.getElementById('detail-btn-grp').style.display = "none"
   }
+
+  const delete_btn = document.getElementById('delete_btn')
+
+  const deletePost = () => {
+    const result = confirm("이 꿀템을 정말 삭제 할까요?")
+    if (result) {
+      $.ajax({
+        type: "POST",
+        url: "/post_delete",
+        data: {
+          date: "{{date.date}}"
+        },
+        success: function (res) {
+          console.log(res);
+          window.location.replace("/main")
+        }
+      });
+      alert('삭제되었습니다.')
+      window.location.replace('/main')
+    } else {
+      console.log('no');
+    }
+  }
+
+  delete_btn.addEventListener('click', deletePost)
+
+
 
 
 </script>
